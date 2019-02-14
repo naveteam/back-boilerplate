@@ -86,11 +86,7 @@ describe('TEST ROLES', () => {
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
         expect.arrayContaining([
-          'name',
-          'message',
-          'deleted',
-          'statusCode',
-          'errorCode'
+          'id'
         ])
       )
     })

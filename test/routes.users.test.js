@@ -98,7 +98,7 @@ describe('TEST USERS', () => {
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role'])
+        expect.arrayContaining(['id', 'name', 'email'])
       )
     })
   })
@@ -112,11 +112,7 @@ describe('TEST USERS', () => {
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
         expect.arrayContaining([
-          'name',
-          'message',
-          'deleted',
-          'statusCode',
-          'errorCode'
+          'id'
         ])
       )
     })

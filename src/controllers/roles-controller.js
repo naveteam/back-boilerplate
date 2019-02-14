@@ -1,10 +1,5 @@
 import Role from '../../database/models/Role'
-import {
-  InternalServerError,
-  NotFound,
-  BadRequest,
-  Deleted
-} from '../utils'
+import { InternalServerError, NotFound, BadRequest } from '../utils'
 
 class Controller {
   async index (ctx) {
@@ -17,12 +12,8 @@ class Controller {
 
   async show (ctx) {
     const role = await new Role({ id: ctx.params.id })
-      .fetch()
+      .fetch({ require: true })
       .catch(err => { throw new NotFound(err.toString()) })
-
-    if (!role) {
-      throw new NotFound()
-    }
 
     ctx.body = role
   }
@@ -42,18 +33,10 @@ class Controller {
     const { body } = ctx.request
 
     const role = await new Role({ id: ctx.params.id })
-      .fetch()
-      .catch(err => { throw new NotFound(err.toString()) })
-
-    if (!role) {
-      throw new NotFound()
-    }
-
-    await role
       .save({
         name: body.name
-      })
-      .catch(err => { throw new BadRequest(err.toString()) })
+      }, { method: 'update' })
+      .catch(err => { throw new NotFound(err.toString()) })
 
     ctx.body = role
   }
@@ -63,7 +46,7 @@ class Controller {
       .destroy()
       .catch(err => { throw new NotFound(err.toString()) })
 
-    ctx.body = new Deleted()
+    ctx.body = { id: ctx.params.id }
   }
 }
 

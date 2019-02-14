@@ -1,8 +1,8 @@
 export const stringGenerator = (lenght = 8) => {
-  var text = ''
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let text = ''
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-  for (var i = 0; i < lenght; i++) {
+  for (let i = 0; i < lenght; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
 
