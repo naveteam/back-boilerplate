@@ -22,6 +22,24 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bo
 
 1. Run tests: `npm test`
 
+## Directory Structure
+
+```
+├── /database
+|   ├── /migrations
+|   ├── /models
+|   ├── /scripts
+|   ├── /seeds
+├── /public
+├── /src
+|   ├── /config
+|   ├── /controllers
+|   ├── /middleware
+|   ├── /routes
+|   ├── /schemas
+|   ├── /utils
+├── /test
+```
 
 ## Styleguide
 
