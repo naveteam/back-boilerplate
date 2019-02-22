@@ -10,6 +10,7 @@
   "scripts": {
     "start": "babel-node src/index.js",
     "dev": "nodemon src/index.js --exec babel-node src/index.js",
+    "pm2": "pm2 start --interpreter babel-node src/index.js",
     "test": "jest --detectOpenHandles --runInBand",
     "createdb": "bash database/scripts/database.sh",
     "knex": "babel-node node_modules/.bin/knex --knexfile database/knexfile.js",
