@@ -13,15 +13,14 @@
     "pm2": "pm2 start --interpreter babel-node src/index.js",
     "test": "jest --detectOpenHandles --runInBand",
     "createdb": "bash database/scripts/database.sh",
-    "knex": "babel-node node_modules/.bin/knex --knexfile database/knexfile.js",
-    "migrate": "babel-node node_modules/.bin/knex --knexfile database/knexfile.js migrate:latest ",
-    "seed": "babel-node node_modules/.bin/knex --knexfile database/knexfile.js seed:run ",
+    "knex": "PATH_ENV='../.env' babel-node node_modules/.bin/knex --knexfile database/knexfile.js",
+    "migrate": "PATH_ENV='../.env' babel-node node_modules/.bin/knex --knexfile database/knexfile.js migrate:latest ",
+    "seed": "PATH_ENV='../.env' babel-node node_modules/.bin/knex --knexfile database/knexfile.js seed:run ",
     "deploy": "git push heroku master"
   },
   "license": "ISC",
   "engines": {
-    "node": "10.13.0",
-    "npm": "6.4.1"
+    "node": ">=10.13.0"
   },
   "dependencies": {
     "@koa/cors": "^2.2.2",

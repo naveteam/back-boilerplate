@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({path: process.env.PATH_ENV})
 
 export const JWT_SECRET = process.env.SECRET || 'mysupersecret'
 export const PORT = process.env.PORT || 3000
