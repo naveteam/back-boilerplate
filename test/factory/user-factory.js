@@ -1,29 +1,26 @@
-import User from '../../database/models/User'
-import RoleFactory from './role-factory'
+import User from '../../src/models/User'
 import {
-  hashPassword,
-  generateJWT,
   stringGenerator,
-  emailGenerator
-} from '../../src/utils'
+  emailGenerator,
+  generateJWTToken,
+  encryptPassword
+} from '../../src/helpers'
 
-export default async () => {
+const userFactory = async () => {
   const password = 'test123'
 
-  const role = await RoleFactory()
-
-  let user = await new User({
+  const user = await new User({
     name: stringGenerator(),
     email: emailGenerator(),
-    password: await hashPassword(password),
-    role_id: role.id
+    password: await encryptPassword(password),
+    role: 'USER'
   }).save()
 
-  const userWithRole = await new User({ id: user.attributes.id })
-    .fetch({ withRelated: ['role'] })
-
-  user = generateJWT(userWithRole.toJSON())
-  user.password = password
-  user.token = `Bearer ${user.token}`
-  return user
+  return {
+    ...user.attributes,
+    password,
+    token: `Bearer ${generateJWTToken(user.attributes)}`
+  }
 }
+
+export default userFactory

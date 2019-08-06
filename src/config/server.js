@@ -1,19 +1,15 @@
-import serve from 'koa-static'
 import Koa from 'koa'
 import Logger from 'koa-logger'
 import Cors from '@koa/cors'
 import koaBody from 'koa-body'
-import respond from 'koa-respond'
-import mount from 'koa-mount'
-import routes from '../routes'
-import { jwtMiddleware } from '../middleware'
 import jwt from 'koa-jwt'
+
+import routes from '../routes'
+import getToken from '../middlewares/jwt-middleware'
+import { errorHandling } from '../helpers'
 import { JWT_SECRET } from './env'
-import { InternalServerError } from '../utils'
 
 const app = new Koa()
-
-app.use(mount('/public', serve('./public')))
 
 app.use(Logger())
 
@@ -25,31 +21,27 @@ app.use(
   })
 )
 
+app.use(koaBody({ multipart: true }))
+
 app.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    const hasCode = err.statusCode || err.status
-    ctx.status = hasCode || 500
-    ctx.body = hasCode ? err : new InternalServerError(err.toString())
+    const errorObject = errorHandling(err)
+    ctx.status = errorObject.statusCode
+
+    ctx.body = errorObject
   }
 })
 
-app.use(koaBody({ multipart: true }))
-
-app.use(jwt({
-  secret: JWT_SECRET,
-  jwtMiddleware
-}).unless({
-  path: [
-    '/v1/users/login',
-    '/v1/users/signup',
-    '/v1/roles',
-    '/public'
-  ]
-}))
-
-app.use(respond())
+app.use(
+  jwt({
+    secret: JWT_SECRET,
+    getToken
+  }).unless({
+    path: ['/v1/users/login', '/v1/users/signup', '/public']
+  })
+)
 
 app.use(routes.routes())
 app.use(routes.allowedMethods())

@@ -9,27 +9,9 @@ export const development = {
   }
 }
 
-export const staging = {
-  client: 'pg',
-  connection: {
-    host: 'boilerplate.example.us-east-1.rds.amazonaws.com',
-    database: 'boilerplate_db',
-    user: 'nave',
-    password: 'password'
-  },
-  migrations: {
-    directory: path.resolve(__dirname, 'migrations')
-  }
-}
-
 export const production = {
   client: 'pg',
-  connection: {
-    host: 'boilerplate.example.us-east-1.rds.amazonaws.com',
-    database: 'boilerplate_db_production',
-    user: 'nave',
-    password: 'password'
-  },
+  connection: DATABASE,
   migrations: {
     directory: path.resolve(__dirname, 'migrations')
   }
@@ -49,7 +31,6 @@ export const test = {
 const knex = {
   development,
   production,
-  staging,
   test
 }
 
