@@ -10,6 +10,6 @@ export default class Database {
   }
 
   async destroy () {
-    await knex.migrate.rollback()
+    await knex.migrate.rollback(null, true)
   }
 }
