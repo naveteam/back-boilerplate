@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.2",
-    "bcrypt": "^3.0.0",
+    "bcryptjs": "^2.4.3",
     "bookshelf": "^0.13.3",
     "bookshelf-uuid": "^1.0.0",
     "dotenv": "^6.1.0",

@@ -1,5 +1,5 @@
 import User from '../../database/models/User'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import {
   BadRequest,
   NotFound,
