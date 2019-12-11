@@ -3,26 +3,31 @@ image: node:10.14.0
 cache:
   paths:
     - node_modules/
-  
+
 jest:
   stage: test
-  script: 
-    - npm install -g knex
-    - npm install
-    - knex migrate:latest --env test
-    - knex seed:run --env test
-    - npm test
+  script:
+    - yarn --silent --production=false
+    - yarn db:migrate --env test
+    - yarn db:seed --env test
+    - yarn test
   only:
-    - master
+    refs:
+      - master
+      - develop
 
-# production:
-#   type: deploy
+# deploy:
 #   stage: deploy
-#   image: ruby:latest
 #   script:
-#     - apt-get update -qy
-#     - apt-get install -y ruby-dev
-#     - gem install dpl
-#     - dpl --provider=heroku --app=api-lavrata-staging --api-key=$HEROKU_API_KEY
+#     - export NODE_ENV=production
+#     - export DATABASE_URL=$DATABASE_URL
+#     - apt update -qq
+#     - apt install -qq -y ruby
+#     - gem install -q dpl
+#     - dpl --provider=heroku --app=$APP_NAME --api-key=$AUTH_TOKEN
+#     - yarn --silent --production=false
+#     - yarn db:migrate
+#     - yarn db:seed
+#     - yarn test
 #   only:
 #     - master

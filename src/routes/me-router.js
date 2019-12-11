@@ -1,9 +1,9 @@
 import Router from 'koa-router'
-import MeController from '../controllers/me-controller'
+
+import MeController from 'controllers/me-controller'
 
 const router = new Router()
-const ctrl = new MeController()
 
-router.get('/me', ctrl.show)
+router.get('/me', MeController.show)
 
 export default router.routes()

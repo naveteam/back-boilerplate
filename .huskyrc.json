@@ -1,0 +1,6 @@
+{
+	"hooks": {
+    "pre-commit": "echo 'Pre-commit checks...' && yarn pre:commit",
+		"pre-push": "echo 'Pre-push checks...' && yarn test"
+	}
+}
