@@ -1,37 +1,30 @@
-/* eslint-env jest */
-import app from '../src/config/server'
 import request from 'supertest'
-import { Database, emailGenerator } from '../src/utils'
-import UserFactory from './factory/user-factory'
-import RoleFactory from './factory/role-factory'
 
-let server
-let user
-const knex = new Database()
+import app from 'server'
+import { DatabaseTest } from 'helpers'
+import UserFactory from 'test/factories/users-factory'
 
 describe('TEST USERS', () => {
   beforeEach(async () => {
-    await knex.create()
-    server = app.listen()
-    user = await UserFactory()
+    await DatabaseTest.createDB()
+    global.server = app.listen()
+    global.user = await UserFactory()
   })
 
   afterEach(async () => {
-    await knex.destroy()
-    server.close()
+    await DatabaseTest.destroyDB()
+    global.server.close()
   })
 
   describe('POST /v1/users', () => {
     test('should create a new user', async () => {
-      const role = await RoleFactory()
-
-      const response = await request(server)
+      const response = await request(global.server)
         .post('/v1/users/signup')
         .send({
           name: 'User Test',
-          email: emailGenerator(),
+          email: 'userTest@teste.com',
           password: 'test123',
-          role_id: role.id
+          role: 'USER'
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
@@ -43,11 +36,11 @@ describe('TEST USERS', () => {
 
   describe('POST /v1/users/login', () => {
     test('should do login', async () => {
-      const response = await request(server)
+      const response = await request(global.server)
         .post('/v1/users/login')
         .send({
-          email: user.email,
-          password: user.password
+          email: global.user.email,
+          password: global.user.password
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
@@ -59,9 +52,9 @@ describe('TEST USERS', () => {
 
   describe('GET /v1/users', () => {
     test('should return a list of users', async () => {
-      const response = await request(server)
+      const response = await request(global.server)
         .get('/v1/users')
-        .set('Authorization', user.token)
+        .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body[0])).toEqual(
@@ -70,11 +63,11 @@ describe('TEST USERS', () => {
     })
   })
 
-  describe('GET /v1/users', () => {
+  describe('GET /v1/users/:id', () => {
     test('should return a user', async () => {
-      const response = await request(server)
-        .get(`/v1/users/${user.id}`)
-        .set('Authorization', user.token)
+      const response = await request(global.server)
+        .get(`/v1/users/${global.user.id}`)
+        .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
@@ -83,36 +76,39 @@ describe('TEST USERS', () => {
     })
   })
 
-  describe('PUT /v1/users', () => {
+  describe('PUT /v1/users/:id', () => {
     test('should update a user', async () => {
-      const role = await RoleFactory()
-      const response = await request(server)
-        .put(`/v1/users/${user.id}`)
-        .set('Authorization', user.token)
+      const response = await request(global.server)
+        .put(`/v1/users/${global.user.id}`)
+        .set('Authorization', global.user.token)
         .send({
           name: 'User Test Update',
-          email: emailGenerator(),
+          email: 'userTestUpdate@teste.com',
           password: 'update123',
-          role_id: role.id
+          role: 'USER'
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email'])
+        expect.arrayContaining(['id', 'name', 'email', 'role'])
       )
     })
   })
 
-  describe('DELETE /v1/users', async () => {
+  describe('DELETE /v1/users/:id', async () => {
     test('should delete a user', async () => {
-      const response = await request(server)
-        .delete(`/v1/users/${user.id}`)
-        .set('Authorization', user.token)
+      const response = await request(global.server)
+        .delete(`/v1/users/${global.user.id}`)
+        .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
         expect.arrayContaining([
-          'id'
+          'name',
+          'message',
+          'deleted',
+          'statusCode',
+          'errorCode'
         ])
       )
     })

@@ -1,58 +1,81 @@
 {
   "name": "api-boilerplate",
   "version": "1.0.0",
-  "description": "Node API Boilerplate by Nave",
-  "main": "api/index.js",
+  "description": "Node API Boilerplate by Nave (nave.rs).",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/naveteam/back-boilerplate.git"
   },
+  "engines": {
+    "node": ">=10.14.0"
+  },
   "scripts": {
     "start": "babel-node src/index.js",
-    "dev": "nodemon src/index.js --exec babel-node src/index.js",
     "pm2": "pm2 start --interpreter babel-node src/index.js",
-    "test": "jest --detectOpenHandles --runInBand",
-    "createdb": "bash database/scripts/database.sh",
-    "knex": "PATH_ENV='../.env' babel-node node_modules/.bin/knex --knexfile database/knexfile.js",
-    "migrate": "PATH_ENV='../.env' babel-node node_modules/.bin/knex --knexfile database/knexfile.js migrate:latest ",
-    "seed": "PATH_ENV='../.env' babel-node node_modules/.bin/knex --knexfile database/knexfile.js seed:run ",
-    "deploy": "git push heroku master"
+    "dev": "nodemon src/index.js --exec babel-node src/index.js",
+    "jest": "jest --detectOpenHandles --runInBand --forceExit",
+    "pretest": "yarn eslint",
+    "test": "yarn jest",
+    "knex": "babel-node node_modules/.bin/knex --knexfile src/database/knexfile.js",
+    "db:migrate": "yarn knex migrate:latest",
+    "db:seed": "yarn knex seed:run",
+    "db:rollback": "yarn knex migrate:rollback",
+    "eslint": "eslint --ignore-path .gitignore .",
+    "pre:commit": "yarn prettier:js && git add .",
+    "prettier:js": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js test/*.js test/**/*.js",
+    "commit": "git-cz"
   },
+  "author": "naveteam",
   "license": "ISC",
-  "engines": {
-    "node": ">=10.13.0"
-  },
   "dependencies": {
+    "@hapi/joi": "^16.1.4",
     "@koa/cors": "^2.2.2",
-    "bcrypt": "^3.0.0",
-    "bookshelf": "^0.13.3",
-    "bookshelf-uuid": "^1.0.0",
-    "dotenv": "^6.1.0",
-    "joi": "^13.6.0",
-    "jsonwebtoken": "^8.3.0",
-    "knex": "^0.15.2",
-    "koa": "^2.5.3",
-    "koa-body": "^4.0.6",
-    "koa-bodyparser": "^4.2.1",
-    "koa-joi-validate": "github:naveteam/koa-joi-validate",
-    "koa-jwt": "^3.5.1",
-    "koa-logger": "^3.2.0",
-    "koa-mount": "^3.0.0",
-    "koa-respond": "^1.0.1",
-    "koa-router": "^7.4.0",
-    "koa-static": "^5.0.0",
-    "path": "^0.12.7",
-    "pg": "^7.4.3",
-    "rollbar": "^2.4.6",
-    "sqlite3": "^4.0.4",
-    "uuid": "^3.3.2"
-  },
-  "devDependencies": {
+    "aws-sdk": "^2.491.0",
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.2",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
+    "bcryptjs": "^2.4.3",
+    "bookshelf": "^1.0.1",
+    "bookshelf-uuid": "^1.0.0",
+    "dotenv": "^6.1.0",
+    "firebase": "^6.2.4",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.19.5",
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-jwt": "^3.5.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "pg": "^7.4.3",
+    "sqlite3": "^4.1.0",
+    "uuid": "^3.3.2",
+    "xhr2": "^0.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "commitlint": "^8.2.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^3.0.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.7",
+    "prettier": "^1.18.2",
     "supertest": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

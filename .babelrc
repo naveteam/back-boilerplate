@@ -1,4 +1,11 @@
 {
-    "presets": ["env", "stage-2"]
+  "presets": ["env", "stage-0"],
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "test": "./test"
+      }
+    }]
+  ]
 }
-  
