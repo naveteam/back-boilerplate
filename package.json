@@ -49,6 +49,7 @@
     "koa-jwt": "^3.5.1",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
+    "koa-unless": "celsomarques/koa-unless#koa-v2",
     "pg": "^7.4.3",
     "sqlite3": "^4.1.0",
     "uuid": "^3.3.2",
@@ -72,6 +73,9 @@
     "nodemon": "^1.18.7",
     "prettier": "^1.18.2",
     "supertest": "^3.3.0"
+  },
+  "resolutions": {
+    "koa-jwt/koa-unless": "celsomarques/koa-unless#koa-v2"
   },
   "config": {
     "commitizen": {
