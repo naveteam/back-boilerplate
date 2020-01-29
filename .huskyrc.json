@@ -1,6 +1,7 @@
 {
 	"hooks": {
-    "pre-commit": "echo 'Pre-commit checks...' && yarn pre:commit",
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+    "pre-commit": "echo 'Pre-commit checks...' && yarn prettier && lint-staged",
 		"pre-push": "echo 'Pre-push checks...' && yarn test"
 	}
 }
