@@ -22,8 +22,7 @@
     "db:seed": "yarn knex seed:run",
     "db:rollback": "yarn knex migrate:rollback",
     "eslint": "eslint --ignore-path .gitignore .",
-    "pre:commit": "yarn prettier:js && git add .",
-    "prettier:js": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js test/*.js test/**/*.js",
+    "prettier": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js test/*.js test/**/*.js",
     "commit": "git-cz"
   },
   "author": "naveteam",
@@ -70,9 +69,16 @@
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.0.0",
     "jest": "^23.6.0",
+    "lint-staged": "9.5.0",
     "nodemon": "^1.18.7",
     "prettier": "^1.18.2",
     "supertest": "^3.3.0"
+  },
+  "lint-staged": {
+    "*.{js, jsx}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "resolutions": {
     "koa-jwt/koa-unless": "celsomarques/koa-unless#koa-v2"
