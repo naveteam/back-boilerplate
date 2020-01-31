@@ -1,5 +1,5 @@
 # Node API boilerplate by nave.rs
-A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bookshelf. 
+A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bookshelf.
 
 # Getting started
 
@@ -41,6 +41,10 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bo
 |   ├── /validators
 ├── /test
 ```
+
+## Insomnia
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Back%20Boilerplate%20Nave.rs&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fnaveteam%2Fback-boilerplate%2Fmaster%2Finsomnia.json)
 
 ## Styleguide
 
