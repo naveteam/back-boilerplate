@@ -19,7 +19,7 @@ export const initBucket = () =>
 
 export const uploadImage = async (filename, file) =>
   new Promise(async (resolve, reject) => {
-    const s3 = initAws()
+    const s3 = initBucket()
     const blob = await fileToBlob(file)
     const s3Params = {
       Bucket: S3_BUCKET,
@@ -38,7 +38,7 @@ export const uploadImage = async (filename, file) =>
   })
 
 export const getImage = async filename => {
-  const s3 = initAws()
+  const s3 = initBucket()
   const s3Params = {
     Bucket: S3_BUCKET,
     Key: filename
