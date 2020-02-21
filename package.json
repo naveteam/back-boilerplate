@@ -11,9 +11,10 @@
     "node": ">=10.14.0"
   },
   "scripts": {
-    "start": "babel-node src/index.js",
-    "pm2": "pm2 start --interpreter babel-node src/index.js",
     "dev": "nodemon src/index.js --exec babel-node src/index.js",
+    "start": "node build/index.js",
+    "build": "rm -rf build && mkdir build && babel src -s -d build",
+    "pm2": "pm2 start build/index.js -i ${PM2_WORKERS-2} --max-memory-restart ${PM2_MAX_MEM-256M} --env production",
     "jest": "jest --detectOpenHandles --runInBand --forceExit",
     "pretest": "yarn eslint",
     "test": "yarn jest",
@@ -57,6 +58,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "babel-polyfill": "^6.26.0",
     "commitlint": "^8.2.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "^6.4.0",
