@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node src/index.js",
-    "start": "node build/index.js",
+    "start": "babel-node build/index.js",
     "build": "rm -rf build && mkdir build && babel src -s -d build",
     "pm2": "pm2 start build/index.js -i ${PM2_WORKERS-2} --max-memory-restart ${PM2_MAX_MEM-256M} --env production",
     "jest": "jest --detectOpenHandles --runInBand --forceExit",
