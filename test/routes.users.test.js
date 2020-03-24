@@ -1,8 +1,9 @@
 import request from 'supertest'
-
 import app from 'server'
 import { DatabaseTest } from 'helpers'
 import UserFactory from 'test/factories/users-factory'
+
+jest.mock('helpers/nodemailer')
 
 describe('TEST USERS', () => {
   beforeEach(async () => {
