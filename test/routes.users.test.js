@@ -25,7 +25,7 @@ describe('TEST USERS', () => {
           name: 'User Test',
           email: 'userTest@teste.com',
           password: 'test123',
-          role: 'USER'
+          role: 1
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
@@ -86,7 +86,7 @@ describe('TEST USERS', () => {
           name: 'User Test Update',
           email: 'userTestUpdate@teste.com',
           password: 'update123',
-          role: 'USER'
+          role: 1
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
