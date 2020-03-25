@@ -11,7 +11,7 @@
     "node": ">=10.14.0"
   },
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node src/index.js",
+    "dev": "nodemon src/index.js --exec babel-node --inspect src/index.js",
     "start": "babel-node build/index.js",
     "build": "rm -rf build && mkdir build && babel src -s -d build",
     "pm2": "pm2 start build/index.js -i ${PM2_WORKERS-2} --max-memory-restart ${PM2_MAX_MEM-256M} --env production",
@@ -41,6 +41,7 @@
     "bookshelf": "^1.0.1",
     "bookshelf-uuid": "^1.0.0",
     "dotenv": "^6.1.0",
+    "file-type": "^14.1.4",
     "firebase": "^6.2.4",
     "googleapis": "^47.0.0",
     "jsonwebtoken": "^8.3.0",
