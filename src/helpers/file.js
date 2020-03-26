@@ -9,7 +9,7 @@ export const fileToBlob = file =>
       if (err) {
         reject(err)
       }
-
+      fs.unlinkSync(file.path)
       resolve(data)
     })
   })
