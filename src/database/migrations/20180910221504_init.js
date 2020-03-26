@@ -20,6 +20,7 @@ export const up = knex =>
         .unique()
         .notNullable()
       table.string('password').notNullable()
+      table.string('password_reset_token').unique()
       table.integer('role').unsigned()
       table
         .foreign('role')

@@ -1,6 +1,14 @@
 import User from 'models/User'
 import bcrypt from 'bcryptjs'
-import { Unauthorized, encryptPassword, generateJWTToken } from '../helpers'
+import crypto from 'crypto'
+import {
+  Unauthorized,
+  encryptPassword,
+  generateJWTToken,
+  sendEmail,
+  NotFound
+} from '../helpers'
+import { templateForgetPassword } from '../utils/reset-password-template'
 
 export const login = async ctx => {
   const { body } = ctx.request
@@ -21,6 +29,48 @@ export const login = async ctx => {
     ...parsedUser,
     token: generateJWTToken({ id: parsedUser.id, role: parsedUser.role })
   }
+}
+
+export const forget = async ctx => {
+  const { body } = ctx.request
+  const token = crypto.randomBytes(10).toString('hex')
+
+  await new User()
+    .where({ email: body.email })
+    .save(
+      {
+        password_reset_token: token
+      },
+      { method: 'update' }
+    )
+    .catch(err => {
+      throw new NotFound('User not found')
+    })
+
+  const template = templateForgetPassword(token)
+
+  await sendEmail(body.email, template)
+
+  return { email: body.email }
+}
+
+export const reset = async ctx => {
+  const { token, password } = ctx.request.body
+
+  const newPassword = await encryptPassword(password)
+
+  return new User()
+    .where({ password_reset_token: token })
+    .save(
+      {
+        password: newPassword,
+        password_reset_token: null
+      },
+      { method: 'update' }
+    )
+    .catch(err => {
+      throw new NotFound('User not found')
+    })
 }
 
 export const index = () => new User().fetchAll()
@@ -60,5 +110,7 @@ export default {
   show,
   create,
   update,
-  destroy
+  destroy,
+  forget,
+  reset
 }
