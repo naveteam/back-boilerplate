@@ -14,9 +14,7 @@ const UsersValidate = {
           .min(1)
           .max(100)
           .required(),
-        role: Joi.string()
-          .valid('ADMIN', 'USER')
-          .required()
+        role: Joi.number().required()
       }
     }),
 
@@ -31,9 +29,7 @@ const UsersValidate = {
           .min(1)
           .max(100)
           .optional(),
-        role: Joi.string()
-          .valid('ADMIN', 'USER')
-          .required()
+        role: Joi.number().required()
       }
     })
 }

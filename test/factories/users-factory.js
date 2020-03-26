@@ -13,7 +13,7 @@ const userFactory = async () => {
     name: stringGenerator(),
     email: emailGenerator(),
     password: await encryptPassword(password),
-    role: 'USER'
+    role: 1
   }).save()
 
   return {
