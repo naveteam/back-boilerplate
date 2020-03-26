@@ -16,7 +16,7 @@ export const up = knex =>
         .notNullable()
       table.string('name').notNullable()
       table
-        .string('email')
+        .specificType('email', 'CITEXT')
         .unique()
         .notNullable()
       table.string('password').notNullable()
