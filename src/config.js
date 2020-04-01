@@ -11,3 +11,4 @@ export const DATABASE =
   process.env.DATABASE_URL || 'postgres://USER:PASSWORD@localhost:5432/DATABASE'
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 export const BUCKET_TYPE = process.env.BUCKET_TYPE || 'firebase'
+export const URL_FRONT = process.env.URL_FRONT || 'localhost'
