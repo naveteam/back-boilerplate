@@ -2,16 +2,27 @@ module.exports = {
   apps: [
     {
       name: 'API',
-      script: 'src/index.js',
-      instances: 1,
+      script: 'build/index.js',
+      instances: 2,
       autorestart: true,
-      watch: true,
+      watch: false,
+      max_memory_restart: '1G',
       env: {
         NODE_ENV: 'development'
-      },
-      env_production: {
-        NODE_ENV: 'production'
       }
     }
-  ]
+  ],
+
+  deploy: {
+    development: {
+      key: process.env.PM2_EC2_PEM,
+      user: process.env.PM2_EC2_USER,
+      host: process.env.PM2_EC2_HOST,
+      ref: 'origin/develop',
+      repo: '',
+      path: '',
+      'post-deploy':
+        'npx yarn && npx yarn build && npx yarn db:migrate-build && npx pm2 reload ecosystem.config.js --env development'
+    }
+  }
 }
