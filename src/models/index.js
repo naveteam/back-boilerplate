@@ -1,6 +1,7 @@
 import Knex from 'knex'
 import Bookshelf from 'bookshelf'
 import BookshelfUuid from 'bookshelf-uuid'
+import BookshelfUpsert from 'bookshelf-upsert'
 
 import knexConfig from 'database/knexfile'
 import { NODE_ENV } from 'config'
@@ -10,6 +11,7 @@ const knex = Knex(knexConfig[NODE_ENV])
 const bookshelf = Bookshelf(knex)
 
 bookshelf.plugin(BookshelfUuid)
+bookshelf.plugin(BookshelfUpsert)
 
 export const Model = modelParams =>
   bookshelf.Model.extend({
@@ -29,6 +31,15 @@ export const Model = modelParams =>
     },
     save: function() {
       return bookshelf.Model.prototype.save
+        .apply(this, arguments)
+        .catch(err => {
+          if (this.upsert) throw err
+          throw BadRequest(err.toString())
+        })
+    },
+    upsert: function() {
+      this.upsert = true
+      return bookshelf.Model.prototype.upsert
         .apply(this, arguments)
         .catch(err => {
           throw BadRequest(err.toString())
