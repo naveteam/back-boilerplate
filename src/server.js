@@ -8,9 +8,11 @@ import routes from 'routes'
 import getToken from 'middlewares/jwt-middleware'
 import { errorHandling } from 'helpers'
 import { JWT_SECRET } from 'config'
+import helmet from 'koa-helmet'
 
 const app = new Koa()
 
+app.use(helmet())
 app.use(Logger())
 
 app.use(
