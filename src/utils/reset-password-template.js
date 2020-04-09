@@ -1,6 +1,6 @@
 import { URL_FRONT } from '../config'
 
-export const templateForgetPassword = token => {
+export const templateForgetPassword = (token) => {
   const resetLink = `${URL_FRONT}/reset-password/${token}`
 
   return {

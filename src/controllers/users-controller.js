@@ -10,7 +10,7 @@ import {
 } from '../helpers'
 import { templateForgetPassword } from '../utils/reset-password-template'
 
-export const login = async ctx => {
+export const login = async (ctx) => {
   const { body } = ctx.request
 
   const user = await new User({ email: body.email }).fetch().catch(() => {
@@ -31,7 +31,7 @@ export const login = async ctx => {
   }
 }
 
-export const forget = async ctx => {
+export const forget = async (ctx) => {
   const { body } = ctx.request
   const token = crypto.randomBytes(10).toString('hex')
 
@@ -43,7 +43,7 @@ export const forget = async ctx => {
       },
       { method: 'update' }
     )
-    .catch(err => {
+    .catch((err) => {
       throw new NotFound('User not found')
     })
 
@@ -54,7 +54,7 @@ export const forget = async ctx => {
   return { email: body.email }
 }
 
-export const reset = async ctx => {
+export const reset = async (ctx) => {
   const { token, password } = ctx.request.body
 
   const newPassword = await encryptPassword(password)
@@ -68,16 +68,16 @@ export const reset = async ctx => {
       },
       { method: 'update' }
     )
-    .catch(err => {
+    .catch((err) => {
       throw new NotFound('User not found')
     })
 }
 
 export const index = () => new User().fetchAll({ withRelated: ['role_id'] })
 
-export const show = ctx => new User({ id: ctx.params.id }).fetch()
+export const show = (ctx) => new User({ id: ctx.params.id }).fetch()
 
-export const create = async ctx => {
+export const create = async (ctx) => {
   const { body } = ctx.request
 
   return new User({
@@ -88,7 +88,7 @@ export const create = async ctx => {
   }).save()
 }
 
-export const update = async ctx => {
+export const update = async (ctx) => {
   const { body } = ctx.request
 
   return new User({ id: ctx.params.id }).save(
@@ -102,7 +102,7 @@ export const update = async ctx => {
   )
 }
 
-export const destroy = ctx => new User({ id: ctx.params.id }).destroy()
+export const destroy = (ctx) => new User({ id: ctx.params.id }).destroy()
 
 export default {
   login,

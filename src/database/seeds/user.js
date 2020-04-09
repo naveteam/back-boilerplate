@@ -2,7 +2,7 @@ import uuidv4 from 'uuid/v4'
 
 import { encryptPassword } from '../../helpers/password'
 
-export const seed = async knex => {
+export const seed = async (knex) => {
   await knex('users').del()
   await knex('users').insert([
     {

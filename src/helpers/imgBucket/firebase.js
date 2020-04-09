@@ -15,15 +15,11 @@ export const initBucket = () => {
   return firebase.initializeApp(config)
 }
 
-export const getImage = name =>
-  firebase
-    .storage()
-    .ref()
-    .child(name)
-    .getDownloadURL()
+export const getImage = (name) =>
+  firebase.storage().ref().child(name).getDownloadURL()
 
-export const getAllImages = images =>
-  Promise.all(images.map(name => this.getImage(name)))
+export const getAllImages = (images) =>
+  Promise.all(images.map((name) => this.getImage(name)))
 
 export const uploadImage = async (name, file) => {
   const blob = await fileToBlob(file)

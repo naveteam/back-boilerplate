@@ -31,7 +31,7 @@ const validateObject = (object = {}, label, schema, options) => {
  * @param {Object} validationObj.body The request body schema
  * @returns A Koa middleware function.
  */
-export const validateSchema = validationObj => (ctx, next) => {
+export const validateSchema = (validationObj) => (ctx, next) => {
   try {
     // Validate each request data object in the Koa context object
     validateObject(ctx.headers, 'Headers', validationObj.headers, {
