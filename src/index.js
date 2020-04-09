@@ -1,4 +1,3 @@
-import '@babel/polyfill'
 import app from 'server'
 import { PORT } from 'config'
 import process from 'process'

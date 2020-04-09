@@ -53,7 +53,6 @@
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-regenerator": "^7.8.7",
     "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.9.5",
     "@hapi/joi": "^17.1.1",
     "@koa/cors": "^3.0.0",

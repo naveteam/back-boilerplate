@@ -96,7 +96,7 @@ describe('TEST USERS', () => {
     })
   })
 
-  describe('DELETE /v1/users/:id', async () => {
+  describe('DELETE /v1/users/:id', () => {
     test('should delete a user', async () => {
       const response = await request(global.server)
         .delete(`/v1/users/${global.user.id}`)
