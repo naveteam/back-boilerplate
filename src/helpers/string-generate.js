@@ -3,7 +3,7 @@ export const stringGenerator = (length = 8) => {
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
   return Array.from({ length }).reduce(
-    (acc) =>
+    acc =>
       acc +
       stringPossible.charAt(Math.floor(Math.random() * stringPossible.length)),
     ''

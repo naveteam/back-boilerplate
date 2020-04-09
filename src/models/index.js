@@ -13,26 +13,26 @@ const bookshelf = Bookshelf(knex)
 bookshelf.plugin(BookshelfUuid)
 bookshelf.plugin(BookshelfUpsert)
 
-export const Model = (modelParams) =>
+export const Model = modelParams =>
   bookshelf.Model.extend({
     fetchAll: function () {
       return bookshelf.Model.prototype.fetchAll
         .apply(this, arguments)
-        .catch((err) => {
+        .catch(err => {
           throw InternalServerError(err.toString())
         })
     },
     fetch: async function () {
       return bookshelf.Model.prototype.fetch
         .apply(this, arguments)
-        .catch((err) => {
+        .catch(err => {
           throw NotFound(err.toString())
         })
     },
     save: function () {
       return bookshelf.Model.prototype.save
         .apply(this, arguments)
-        .catch((err) => {
+        .catch(err => {
           if (this.upsert) throw err
           throw BadRequest(err.toString())
         })
@@ -41,14 +41,14 @@ export const Model = (modelParams) =>
       this.upsert = true
       return bookshelf.Model.prototype.upsert
         .apply(this, arguments)
-        .catch((err) => {
+        .catch(err => {
           throw BadRequest(err.toString())
         })
     },
     destroy: async function () {
       await bookshelf.Model.prototype.destroy
         .apply(this, arguments)
-        .catch((err) => {
+        .catch(err => {
           throw NotFound(err.toString())
         })
 

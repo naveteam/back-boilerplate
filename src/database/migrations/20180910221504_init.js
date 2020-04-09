@@ -1,10 +1,10 @@
-export const up = (knex) =>
+export const up = knex =>
   knex.schema
-    .createTable('roles', (table) => {
+    .createTable('roles', table => {
       table.increments('id').primary()
       table.string('role').notNullable()
     })
-    .createTable('users', (table) => {
+    .createTable('users', table => {
       table.uuid('id').primary()
       table.string('name').notNullable()
       table.specificType('email', 'CITEXT').unique().notNullable()
@@ -19,5 +19,5 @@ export const up = (knex) =>
       table.timestamps(true, true)
     })
 
-export const down = (knex) =>
+export const down = knex =>
   knex.schema.dropTableIfExists('users').dropTableIfExists('roles')

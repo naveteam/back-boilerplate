@@ -42,7 +42,7 @@ export const uploadImage = async (filename, file) =>
     })
   })
 
-export const getImage = async (filename) => {
+export const getImage = async filename => {
   const s3 = initBucket()
   const s3Params = {
     Bucket: S3_BUCKET,

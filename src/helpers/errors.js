@@ -38,7 +38,7 @@ export const Deleted = (message = 'Successfully deleted') => ({
   errorCode: 200
 })
 
-export const getErrorByStatusCode = (statusCode) => {
+export const getErrorByStatusCode = statusCode => {
   switch (statusCode) {
     case 404:
       return NotFound
@@ -53,7 +53,7 @@ export const getErrorByStatusCode = (statusCode) => {
   }
 }
 
-export const errorHandling = (err) => {
+export const errorHandling = err => {
   if (err.errorCode) {
     return err
   }
