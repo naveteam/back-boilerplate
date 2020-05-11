@@ -73,7 +73,7 @@ export const reset = async ctx => {
     })
 }
 
-export const index = () => new User().fetchAll()
+export const index = () => new User().fetchAll({ withRelated: ['role_id'] })
 
 export const show = ctx => new User({ id: ctx.params.id }).fetch()
 
@@ -84,7 +84,7 @@ export const create = async ctx => {
     name: body.name,
     email: body.email,
     password: await encryptPassword(body.password),
-    role: body.role
+    role_id: body.role_id
   }).save()
 }
 
@@ -96,7 +96,7 @@ export const update = async ctx => {
       name: body.name,
       email: body.email,
       password: await encryptPassword(body.password),
-      role: body.role
+      role_id: body.role_id
     },
     { method: 'update' }
   )

@@ -25,12 +25,12 @@ describe('TEST USERS', () => {
           name: 'User Test',
           email: 'userTest@teste.com',
           password: 'test123',
-          role: 1
+          role_id: 1
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role'])
+        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
       )
     })
   })
@@ -46,7 +46,7 @@ describe('TEST USERS', () => {
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'token', 'role'])
+        expect.arrayContaining(['id', 'name', 'email', 'token', 'role_id'])
       )
     })
   })
@@ -59,7 +59,7 @@ describe('TEST USERS', () => {
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body[0])).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role'])
+        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
       )
     })
   })
@@ -72,7 +72,7 @@ describe('TEST USERS', () => {
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role'])
+        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
       )
     })
   })
@@ -86,12 +86,12 @@ describe('TEST USERS', () => {
           name: 'User Test Update',
           email: 'userTestUpdate@teste.com',
           password: 'update123',
-          role: 1
+          role_id: 1
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role'])
+        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
       )
     })
   })
