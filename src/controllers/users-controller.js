@@ -73,7 +73,7 @@ export const reset = async ctx => {
     })
 }
 
-export const index = () => new User().fetchAll()
+export const index = () => new User().fetchAll({ withRelated: ['role'] })
 
 export const show = ctx => new User({ id: ctx.params.id }).fetch()
 

@@ -1,4 +1,5 @@
 import bookshelf, { Model } from 'models'
+import role from 'models/Role'
 
 const user = Model({
   tableName: 'users',
@@ -8,8 +9,10 @@ const user = Model({
       this,
       arguments
     )
-
     return user
+  },
+  role: function() {
+    return this.belongsTo(role, 'role')
   }
 })
 
