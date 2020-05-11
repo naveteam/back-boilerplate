@@ -13,9 +13,9 @@ export const up = knex =>
         .notNullable()
       table.string('password').notNullable()
       table.string('password_reset_token').unique()
-      table.integer('role').unsigned()
+      table.integer('role_id').unsigned()
       table
-        .foreign('role')
+        .foreign('role_id')
         .references('id')
         .inTable('roles')
         .onDelete('CASCADE')

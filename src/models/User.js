@@ -11,8 +11,8 @@ const user = Model({
     )
     return user
   },
-  role: function() {
-    return this.belongsTo(role, 'role')
+  role_id: function() {
+    return this.belongsTo(role, 'role_id')
   }
 })
 
