@@ -41,7 +41,13 @@ app.use(
     secret: JWT_SECRET,
     getToken
   }).unless({
-    path: ['/v1/users/login', '/v1/users/signup', '/public']
+    path: [
+      '/v1/users/login',
+      '/v1/users/signup',
+      '/v1/roles/create',
+      /^\/v1\/roles/,
+      '/public'
+    ]
   })
 )
 
