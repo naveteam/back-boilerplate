@@ -2,7 +2,7 @@ import { Model } from 'models'
 
 const role = Model({
   tableName: 'roles',
-  uuid: true
+  increments: true
 })
 
 export default role
