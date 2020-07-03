@@ -7,10 +7,7 @@ export const up = knex =>
     .createTable('users', table => {
       table.uuid('id').primary()
       table.string('name').notNullable()
-      table
-        .specificType('email', 'CITEXT')
-        .unique()
-        .notNullable()
+      table.specificType('email', 'CITEXT').unique().notNullable()
       table.string('password').notNullable()
       table.string('password_reset_token').unique()
       table.integer('role_id').unsigned()

@@ -15,21 +15,21 @@ bookshelf.plugin(BookshelfUpsert)
 
 export const Model = modelParams =>
   bookshelf.Model.extend({
-    fetchAll: function() {
+    fetchAll: function () {
       return bookshelf.Model.prototype.fetchAll
         .apply(this, arguments)
         .catch(err => {
           throw InternalServerError(err.toString())
         })
     },
-    fetch: async function() {
+    fetch: async function () {
       return bookshelf.Model.prototype.fetch
         .apply(this, arguments)
         .catch(err => {
           throw NotFound(err.toString())
         })
     },
-    save: function() {
+    save: function () {
       return bookshelf.Model.prototype.save
         .apply(this, arguments)
         .catch(err => {
@@ -37,7 +37,7 @@ export const Model = modelParams =>
           throw BadRequest(err.toString())
         })
     },
-    upsert: function() {
+    upsert: function () {
       this.upsert = true
       return bookshelf.Model.prototype.upsert
         .apply(this, arguments)
@@ -45,7 +45,7 @@ export const Model = modelParams =>
           throw BadRequest(err.toString())
         })
     },
-    destroy: async function() {
+    destroy: async function () {
       await bookshelf.Model.prototype.destroy
         .apply(this, arguments)
         .catch(err => {

@@ -7,13 +7,8 @@ const UsersValidate = {
     validateSchema({
       body: {
         name: Joi.string().required(),
-        email: Joi.string()
-          .email()
-          .required(),
-        password: Joi.string()
-          .min(1)
-          .max(100)
-          .required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(1).max(100).required(),
         role_id: Joi.number().required()
       }
     }),
@@ -22,13 +17,8 @@ const UsersValidate = {
     validateSchema({
       body: {
         name: Joi.string().required(),
-        email: Joi.string()
-          .email()
-          .required(),
-        password: Joi.string()
-          .min(1)
-          .max(100)
-          .optional(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(1).max(100).optional(),
         role_id: Joi.number().required()
       }
     })

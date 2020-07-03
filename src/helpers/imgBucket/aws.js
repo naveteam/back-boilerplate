@@ -51,10 +51,7 @@ export const getImage = async filename => {
 
   const file = fs.createWriteStream(filename)
 
-  await s3
-    .getObject(s3Params)
-    .createReadStream()
-    .pipe(file)
+  await s3.getObject(s3Params).createReadStream().pipe(file)
 
   return writeFile(file)
 }
