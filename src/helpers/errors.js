@@ -1,3 +1,12 @@
+const {
+  DBError,
+  UniqueViolationError,
+  NotNullViolationError,
+  ForeignKeyViolationError,
+  CheckViolationError,
+  DataError
+} = require('objection')
+
 export const NotFound = (
   message = 'The requested resource could not be found'
 ) => ({
@@ -52,29 +61,6 @@ export const getErrorByStatusCode = statusCode => {
       return
   }
 }
-
-// export const errorHandling = err => {
-//   if (err.errorCode) {
-//     return err
-//   }
-
-//   if (err.originalError) {
-//     return Unauthorized(err.originalError.message)
-//   }
-
-//   const errorLib = getErrorByStatusCode(err.statusCode || err.status || 500)
-
-//   return errorLib(err.message || err.toString())
-// }
-
-const {
-  DBError,
-  UniqueViolationError,
-  NotNullViolationError,
-  ForeignKeyViolationError,
-  CheckViolationError,
-  DataError
-} = require('objection')
 
 export const errorHandling = err => {
   if (err instanceof UniqueViolationError) {

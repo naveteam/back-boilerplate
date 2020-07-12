@@ -70,7 +70,8 @@ export const reset = async ctx => {
     })
 }
 
-export const show = ctx => User.query().findOne({ id: ctx.params.id })
+export const show = ctx =>
+  User.query().findOne({ id: ctx.params.id }).withGraphFetched('role')
 
 export const create = async ctx => {
   const { body } = ctx.request
