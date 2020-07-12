@@ -35,21 +35,21 @@ export default async (sendTo, template) => {
     'https://developers.google.com/oauthplayground'
   )
 
-  oAuth2Client.setCredentials({
-    refresh_token: env('REFRESH_TOKEN')
-  })
+  // oAuth2Client.setCredentials({
+  //   refresh_token: env('REFRESH_TOKEN')
+  // })
 
-  const accessToken = oAuth2Client.getAccessToken()
+  // const accessToken = oAuth2Client.getAccessToken()
 
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
       user: env('SENDER_EMAIL'),
-      pass: env('SENDER_EMAIL_PASSWORD'),
-      clientId: env('CLIENT_ID'),
-      clientSecret: env('CLIENT_SECRET'),
-      refreshToken: env('REFRESH_TOKEN'),
-      accessToken: accessToken
+      pass: env('SENDER_EMAIL_PASSWORD')
+      // clientId: env('CLIENT_ID'),
+      // clientSecret: env('CLIENT_SECRET'),
+      // refreshToken: env('REFRESH_TOKEN'),
+      // accessToken: accessToken
     }
   })
 

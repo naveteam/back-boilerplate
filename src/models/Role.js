@@ -1,8 +1,8 @@
-import { Model } from 'models'
+import { baseModel } from 'models'
+class Role extends baseModel {
+  static get tableName() {
+    return 'roles'
+  }
+}
 
-const role = Model({
-  tableName: 'roles',
-  uuid: true
-})
-
-export default role
+export default Role

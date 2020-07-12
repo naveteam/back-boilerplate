@@ -29,10 +29,7 @@ app.use(async (ctx, next) => {
   try {
     ctx.body = await next()
   } catch (err) {
-    const errorObject = errorHandling(err)
-    ctx.status = errorObject.statusCode
-
-    ctx.body = errorObject
+    ctx.body = err
   }
 })
 
@@ -41,7 +38,13 @@ app.use(
     secret: JWT_SECRET,
     getToken
   }).unless({
-    path: ['/v1/users/login', '/v1/users/signup', '/public']
+    path: [
+      '/v1/users/login',
+      '/v1/users/signup',
+      '/v1/users/forget',
+      '/v1/users/reset',
+      '/public'
+    ]
   })
 )
 

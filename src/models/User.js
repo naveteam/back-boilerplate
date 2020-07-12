@@ -1,19 +1,20 @@
-import bookshelf, { Model } from 'models'
-import role from 'models/Role'
+import { baseModel, modelUuid } from 'models'
+import { Model } from 'objection'
+import Role from './Role'
+class User extends modelUuid(baseModel) {
+  static tableName = 'users'
+  static hidden = ['password']
 
-const user = Model({
-  tableName: 'users',
-  uuid: true,
-  toJSON: function () {
-    const { password, ...user } = bookshelf.Model.prototype.toJSON.apply(
-      this,
-      arguments
-    )
-    return user
-  },
-  role_id: function () {
-    return this.belongsTo(role, 'role_id')
+  static relationMappings = {
+    role: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: Role,
+      join: {
+        from: 'users.role_id',
+        to: 'roles.id'
+      }
+    }
   }
-})
+}
 
-export default user
+export default User
