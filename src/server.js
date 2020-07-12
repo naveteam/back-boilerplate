@@ -29,7 +29,13 @@ app.use(async (ctx, next) => {
   try {
     ctx.body = await next()
   } catch (err) {
-    ctx.body = err
+    if (err.statusCode) {
+      ctx.status = err.statusCode
+      return (ctx.body = err)
+    }
+    const errorObject = errorHandling(err)
+    ctx.status = errorObject.statusCode
+    ctx.body = errorObject
   }
 })
 

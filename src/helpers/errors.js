@@ -53,16 +53,92 @@ export const getErrorByStatusCode = statusCode => {
   }
 }
 
+// export const errorHandling = err => {
+//   if (err.errorCode) {
+//     return err
+//   }
+
+//   if (err.originalError) {
+//     return Unauthorized(err.originalError.message)
+//   }
+
+//   const errorLib = getErrorByStatusCode(err.statusCode || err.status || 500)
+
+//   return errorLib(err.message || err.toString())
+// }
+
+const {
+  DBError,
+  UniqueViolationError,
+  NotNullViolationError,
+  ForeignKeyViolationError,
+  CheckViolationError,
+  DataError
+} = require('objection')
+
 export const errorHandling = err => {
-  if (err.errorCode) {
-    return err
+  if (err instanceof UniqueViolationError) {
+    return {
+      type: err.name,
+      data: {
+        columns: err.columns,
+        table: err.table,
+        constraint: err.constraint
+      },
+      statusCode: 409
+    }
   }
-
-  if (err.originalError) {
-    return Unauthorized(err.originalError.message)
+  if (err instanceof NotNullViolationError) {
+    return {
+      type: err.name,
+      data: {
+        column: err.column,
+        table: err.table
+      },
+      statusCode: 400
+    }
   }
-
-  const errorLib = getErrorByStatusCode(err.statusCode || err.status || 500)
-
-  return errorLib(err.message || err.toString())
+  if (err instanceof ForeignKeyViolationError) {
+    return {
+      type: err.name,
+      data: {
+        table: err.table,
+        constraint: err.constraint
+      },
+      statusCode: 409
+    }
+  }
+  if (err instanceof CheckViolationError) {
+    return {
+      type: err.name,
+      data: {
+        table: err.table,
+        constraint: err.constraint
+      },
+      statusCode: 400
+    }
+  }
+  if (err instanceof DataError) {
+    return {
+      type: err.name,
+      data: {},
+      statusCode: 400
+    }
+  }
+  if (err instanceof DBError) {
+    return {
+      type: 'UnknownDatabaseError',
+      data: {
+        message: err.message
+      },
+      statusCode: 500
+    }
+  }
+  return {
+    type: 'UnknownError',
+    data: {
+      message: err.message
+    },
+    statusCode: 500
+  }
 }

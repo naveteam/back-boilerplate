@@ -1,5 +1,5 @@
 import path from 'path'
-import { DATABASE } from '../config'
+import { DATABASE, DATABASE_TEST } from '../config'
 
 export const development = {
   client: 'pg',
@@ -18,14 +18,11 @@ export const production = {
 }
 
 export const test = {
-  client: 'sqlite3',
-  connection: {
-    filename: path.resolve(__dirname, 'db_test.sqlite3')
-  },
+  client: 'pg',
+  connection: DATABASE_TEST,
   migrations: {
     directory: path.resolve(__dirname, 'migrations')
-  },
-  useNullAsDefault: true
+  }
 }
 
 const knex = {
