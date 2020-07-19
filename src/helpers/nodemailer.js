@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { env } from './env'
+import { NODE_ENV } from 'config'
 
 export default async (sendTo, template) => {
   const oAuth2Client = new google.auth.OAuth2(
@@ -28,7 +29,7 @@ export default async (sendTo, template) => {
   })
   const mailOptions = {
     from: env('SENDER_EMAIL'),
-    to: sendTo,
+    to: NODE_ENV === 'production' ? sendTo : env('RECEIVER_EMAIL'),
     subject: template.subject,
     text: template.text,
     html: template.html
