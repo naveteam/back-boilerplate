@@ -12,3 +12,4 @@ export const DATABASE =
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 export const BUCKET_TYPE = process.env.BUCKET_TYPE || 'firebase'
 export const URL_FRONT = process.env.URL_FRONT || 'localhost'
+export const EXPIRE_TOKEN = process.env.EXPIRE_TOKEN || '5d'
