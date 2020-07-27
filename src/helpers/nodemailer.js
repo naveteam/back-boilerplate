@@ -1,9 +1,32 @@
 import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
-import { env } from './env'
-import { NODE_ENV } from 'config'
+
+import { env, NODE_ENV } from './env'
+
+const DOMAIN_REGEX = /@.{2,}\..{1,}/
 
 export default async (sendTo, template) => {
+  if (NODE_ENV !== 'production') {
+    try {
+      const allowList = JSON.parse(env('ALLOW_LIST', [`"${'@nave.rs'}"`]))
+
+      if (
+        allowList.length === 0 ||
+        allowList.find(domain => !DOMAIN_REGEX.test(domain))
+      ) {
+        return
+      }
+
+      const isAllowed = allowList.find(domain => sendTo.includes(domain))
+
+      if (!isAllowed) {
+        return
+      }
+    } catch {
+      return
+    }
+  }
+
   const oAuth2Client = new google.auth.OAuth2(
     env('CLIENT_ID'),
     env('CLIENT_SECRET'),
@@ -27,9 +50,10 @@ export default async (sendTo, template) => {
       accessToken: accessToken
     }
   })
+
   const mailOptions = {
     from: env('SENDER_EMAIL'),
-    to: NODE_ENV === 'production' ? sendTo : env('RECEIVER_EMAIL'),
+    to: sendTo,
     subject: template.subject,
     text: template.text,
     html: template.html
