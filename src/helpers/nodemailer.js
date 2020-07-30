@@ -8,7 +8,9 @@ const DOMAIN_REGEX = /@.{2,}\..{1,}/
 export default async (sendTo, template) => {
   if (NODE_ENV !== 'production') {
     try {
-      const allowList = JSON.parse(env('ALLOW_LIST', [`"${'@nave.rs'}"`]))
+      const allowList = JSON.parse(
+        env('ALLOW_LIST', JSON.stringify(['@nave.rs']))
+      )
 
       if (
         allowList.length === 0 ||
