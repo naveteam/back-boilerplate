@@ -3,12 +3,12 @@ import Logger from 'koa-logger'
 import Cors from '@koa/cors'
 import koaBody from 'koa-body'
 import jwt from 'koa-jwt'
+import helmet from 'koa-helmet'
 
 import routes from 'routes'
 import getToken from 'middlewares/jwt-middleware'
 import { errorHandling } from 'helpers'
 import { JWT_SECRET } from 'config'
-import helmet from 'koa-helmet'
 
 const app = new Koa()
 

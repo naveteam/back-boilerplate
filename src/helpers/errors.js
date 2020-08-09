@@ -1,11 +1,11 @@
-const {
+import {
   DBError,
   UniqueViolationError,
   NotNullViolationError,
   ForeignKeyViolationError,
   CheckViolationError,
   DataError
-} = require('objection')
+} from 'objection'
 
 export const NotFound = (
   message = 'The requested resource could not be found'

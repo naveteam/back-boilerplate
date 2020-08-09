@@ -1,14 +1,16 @@
-import User from 'models/User'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
+
+import User from 'models/User'
+
 import {
   Unauthorized,
   encryptPassword,
   generateJWTToken,
   sendEmail,
   NotFound
-} from '../helpers'
-import { templateForgetPassword } from '../utils/reset-password-template'
+} from 'helpers'
+import { templateForgetPassword } from 'utils'
 
 export const login = async ctx => {
   const { body } = ctx.request
@@ -32,9 +34,7 @@ export const login = async ctx => {
   }
 }
 
-export const index = ctx => {
-  return User.query().withGraphFetched('role')
-}
+export const index = () => User.query().withGraphFetched('role')
 
 export const forget = async ctx => {
   const { body } = ctx.request
