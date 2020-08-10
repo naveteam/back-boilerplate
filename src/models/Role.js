@@ -1,4 +1,4 @@
-import { baseModel } from 'models'
+import { baseModel } from './index'
 class Role extends baseModel {
   static get tableName() {
     return 'roles'

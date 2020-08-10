@@ -54,15 +54,32 @@ export const getErrorByStatusCode = statusCode => {
     case 400:
       return BadRequest
     case 500:
+    default:
       return InternalServerError
     case 401:
       return Unauthorized
-    default:
-      return
   }
 }
 
+const internalError = err => {
+  if (err.errorCode) {
+    return err
+  }
+
+  if (err.originalError) {
+    return Unauthorized(err.originalError.message)
+  }
+
+  const errorLib = getErrorByStatusCode(err.statusCode || err.status || 500)
+
+  return errorLib(err.message || err.toString())
+}
+
 export const errorHandling = err => {
+  if (err.statusCode) {
+    return internalError(err)
+  }
+
   if (err instanceof UniqueViolationError) {
     return {
       type: err.name,

@@ -1,10 +1,8 @@
 import Role from 'models/Role'
 
-const roleFactory = async () => {
-  return Role.query().insert({
-    id: 1,
+const roleFactory = () =>
+  Role.query().insert({
     role: 'admin'
   })
-}
 
 export default roleFactory

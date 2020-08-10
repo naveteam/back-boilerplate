@@ -97,4 +97,16 @@ export const update = async ctx => {
 export const destroy = ctx =>
   User.query().deleteById(ctx.state.user.id).returning('*')
 
-export default { index, create, login, forget, reset, update, show, destroy }
+export const me = ctx => User.query().findOne({ id: ctx.state.user.id })
+
+export default {
+  index,
+  create,
+  login,
+  forget,
+  reset,
+  update,
+  show,
+  destroy,
+  me
+}

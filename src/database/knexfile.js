@@ -1,4 +1,5 @@
 import path from 'path'
+
 import { DATABASE, DATABASE_TEST } from '../config'
 
 export const development = {

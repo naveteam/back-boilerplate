@@ -26,8 +26,9 @@
     "db:migrate": "yarn knex migrate:latest",
     "db:seed": "yarn knex seed:run",
     "db:rollback": "yarn knex migrate:rollback",
+    "db:initialize": "yarn db:rollback && yarn db:migrate && yarn db:seed",
     "eslint": "eslint --ignore-path .gitignore .",
-    "prettier": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js test/*.js test/**/*.js",
+    "prettier": "prettier --write '**/*.js' --ignore-path .gitignore .",
     "commit": "git-cz"
   },
   "author": "naveteam",

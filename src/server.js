@@ -6,7 +6,7 @@ import jwt from 'koa-jwt'
 import helmet from 'koa-helmet'
 
 import routes from 'routes'
-import getToken from 'middlewares/jwt-middleware'
+import { getToken } from 'middlewares'
 import { errorHandling } from 'helpers'
 import { JWT_SECRET } from 'config'
 
@@ -29,10 +29,6 @@ app.use(async (ctx, next) => {
   try {
     ctx.body = await next()
   } catch (err) {
-    if (err.statusCode) {
-      ctx.status = err.statusCode
-      return (ctx.body = err)
-    }
     const errorObject = errorHandling(err)
     ctx.status = errorObject.statusCode
     ctx.body = errorObject
