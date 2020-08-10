@@ -17,6 +17,7 @@ export const login = async ctx => {
 
   const user = await User.query()
     .findOne({ email: body.email })
+    .withGraphFetched('role')
     .catch(() => {
       throw Unauthorized('Unauthorized, User not found')
     })
@@ -30,7 +31,7 @@ export const login = async ctx => {
 
   return {
     ...parsedUser,
-    token: generateJWTToken({ id: parsedUser.id, role: parsedUser.role })
+    token: generateJWTToken({ id: parsedUser.id, role_id: parsedUser.role.id })
   }
 }
 
