@@ -1,16 +1,13 @@
-import nodemailer from 'nodemailer'
-import { google } from 'googleapis'
+import { env, NODE_ENV, MAIL_TYPE, ALLOW_LIST } from './env'
 
-import { env, NODE_ENV } from './env'
+import { createTransporter } from './email-transporter'
 
 const DOMAIN_REGEX = /@.{2,}\..{1,}/
 
-export default async (sendTo, template) => {
+export const sendEmail = (sendTo, emailBody) => {
   if (NODE_ENV !== 'production') {
     try {
-      const allowList = JSON.parse(
-        env('ALLOW_LIST', JSON.stringify(['@nave.rs']))
-      )
+      const allowList = JSON.parse(ALLOW_LIST)
 
       if (
         allowList.length === 0 ||
@@ -29,38 +26,15 @@ export default async (sendTo, template) => {
     }
   }
 
-  const oAuth2Client = new google.auth.OAuth2(
-    env('CLIENT_ID'),
-    env('CLIENT_SECRET'),
-    'https://developers.google.com/oauthplayground'
-  )
-
-  oAuth2Client.setCredentials({
-    refresh_token: env('REFRESH_TOKEN')
-  })
-
-   const accessToken = oAuth2Client.getAccessToken() */
-
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: env('SENDER_EMAIL'),
-      pass: env('SENDER_EMAIL_PASSWORD')
-      /* use these with OAuth2
-      clientId: env('CLIENT_ID'),
-      clientSecret: env('CLIENT_SECRET'),
-      refreshToken: env('REFRESH_TOKEN'),
-      accessToken: accessToken*/
-    }
-  })
+  const transporter = createTransporter(MAIL_TYPE)
 
   const mailOptions = {
     from: env('SENDER_EMAIL'),
-    to: NODE_ENV === 'production' ? sendTo : env('RECEIVER_EMAIL'),
-    subject: template.subject,
-    text: template.text,
-    html: template.html
+    to: sendTo,
+    subject: emailBody.subject,
+    text: emailBody.text,
+    html: emailBody.html
   }
 
-  await transporter.sendMail(mailOptions)
+  return transporter.sendMail(mailOptions)
 }

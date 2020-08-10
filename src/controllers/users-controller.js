@@ -31,7 +31,7 @@ export const login = async ctx => {
 
   return {
     ...parsedUser,
-    token: generateJWTToken({ id: parsedUser.id, role_id: parsedUser.role.id })
+    token: generateJWTToken({ id: parsedUser.id, role_id: parsedUser.role_id })
   }
 }
 
@@ -66,7 +66,7 @@ export const reset = async ctx => {
       password: newPassword,
       password_reset_token: null
     })
-    .catch(err => {
+    .catch(() => {
       throw new NotFound('User not found')
     })
 }

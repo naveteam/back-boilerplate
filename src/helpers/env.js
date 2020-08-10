@@ -53,4 +53,16 @@ export const IS_TEST = NODE_ENV === 'test'
  */
 export const PORT = env('PORT', 3000)
 
+/**
+ * Email authenticate type used by nodemailer
+ * @constant {string}
+ */
+export const MAIL_TYPE = env('MAIL_TYPE', 'gmail')
+
+/**
+ * List of emails allowed to use
+ * @constant {string}
+ */
+export const ALLOW_LIST = env('ALLOW_LIST', JSON.stringify(['@nave.rs']))
+
 export default env

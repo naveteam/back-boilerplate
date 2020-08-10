@@ -17,10 +17,15 @@ const userFactory = async () => {
     role_id: 1
   })
 
+  const parsedUser = user.toJSON()
+
   return {
-    ...user.toJSON(),
+    ...parsedUser,
     password,
-    token: `Bearer ${generateJWTToken(user)}`
+    token: `Bearer ${generateJWTToken({
+      id: parsedUser.id,
+      role_id: parsedUser.role_id
+    })}`
   }
 }
 
