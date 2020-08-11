@@ -1,23 +1,27 @@
-import User from 'models/User'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
+
+import User from 'models/User'
+
 import {
   Unauthorized,
   encryptPassword,
   generateJWTToken,
   sendEmail,
   NotFound
-} from '../helpers'
-import { templateForgetPassword } from '../utils/reset-password-template'
+} from 'helpers'
+import { templateForgetPassword } from 'utils'
 
 export const login = async ctx => {
   const { body } = ctx.request
 
-  const user = await new User({ email: body.email }).fetch().catch(() => {
-    throw Unauthorized('Unauthorized, User not found')
-  })
-
-  const isValid = await bcrypt.compare(body.password, user.attributes.password)
+  const user = await User.query()
+    .findOne({ email: body.email })
+    .withGraphFetched('role')
+    .catch(() => {
+      throw Unauthorized('Unauthorized, User not found')
+    })
+  const isValid = await bcrypt.compare(body.password, user.password)
 
   if (!isValid) {
     throw Unauthorized('Unauthorized, password is invalid')
@@ -27,23 +31,20 @@ export const login = async ctx => {
 
   return {
     ...parsedUser,
-    token: generateJWTToken({ id: parsedUser.id, role: parsedUser.role })
+    token: generateJWTToken({ id: parsedUser.id, role_id: parsedUser.role_id })
   }
 }
+
+export const index = () => User.query().withGraphFetched('role')
 
 export const forget = async ctx => {
   const { body } = ctx.request
   const token = crypto.randomBytes(10).toString('hex')
 
-  await new User()
-    .where({ email: body.email })
-    .save(
-      {
-        password_reset_token: token
-      },
-      { method: 'update' }
-    )
-    .catch(err => {
+  await User.query()
+    .findOne({ email: body.email })
+    .patch({ password_reset_token: token })
+    .catch(() => {
       throw new NotFound('User not found')
     })
 
@@ -59,58 +60,54 @@ export const reset = async ctx => {
 
   const newPassword = await encryptPassword(password)
 
-  return new User()
-    .where({ password_reset_token: token })
-    .save(
-      {
-        password: newPassword,
-        password_reset_token: null
-      },
-      { method: 'update' }
-    )
-    .catch(err => {
+  return User.query()
+    .findOne({ password_reset_token: token })
+    .patch({
+      password: newPassword,
+      password_reset_token: null
+    })
+    .catch(() => {
       throw new NotFound('User not found')
     })
 }
 
-export const index = () => new User().fetchAll({ withRelated: ['role_id'] })
-
-export const show = ctx => new User({ id: ctx.params.id }).fetch()
+export const show = ctx =>
+  User.query().findOne({ id: ctx.params.id }).withGraphFetched('role')
 
 export const create = async ctx => {
   const { body } = ctx.request
-
-  return new User({
+  return User.query().insert({
     name: body.name,
-    email: body.email,
     password: await encryptPassword(body.password),
+    email: body.email,
     role_id: body.role_id
-  }).save()
+  })
 }
 
 export const update = async ctx => {
   const { body } = ctx.request
 
-  return new User({ id: ctx.params.id }).save(
-    {
-      name: body.name,
-      email: body.email,
-      password: await encryptPassword(body.password),
-      role_id: body.role_id
-    },
-    { method: 'update' }
-  )
+  return User.query().patchAndFetchById(ctx.params.id, {
+    name: body.name,
+    email: body.email,
+    password: await encryptPassword(body.password),
+    role_id: body.role_id
+  })
 }
 
-export const destroy = ctx => new User({ id: ctx.params.id }).destroy()
+export const destroy = ctx =>
+  User.query().deleteById(ctx.state.user.id).returning('*')
+
+export const me = ctx => User.query().findOne({ id: ctx.state.user.id })
 
 export default {
-  login,
   index,
-  show,
   create,
-  update,
-  destroy,
+  login,
   forget,
-  reset
+  reset,
+  update,
+  show,
+  destroy,
+  me
 }

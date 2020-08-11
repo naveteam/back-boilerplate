@@ -1,18 +1,13 @@
 import app from 'server'
-import { PORT } from 'config'
 import process from 'process'
 
-process.on('SIGINT', function onSigint() {
-  app.shutdown()
-})
+import { PORT } from 'config'
 
-process.on('SIGTERM', function onSigterm() {
-  app.shutdown()
-})
+app.shutdown = () => process.exit()
 
-app.shutdown = function () {
-  process.exit()
-}
+process.on('SIGINT', () => app.shutdown())
+
+process.on('SIGTERM', () => app.shutdown())
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
 

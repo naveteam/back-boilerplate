@@ -1,3 +1,12 @@
+import {
+  DBError,
+  UniqueViolationError,
+  NotNullViolationError,
+  ForeignKeyViolationError,
+  CheckViolationError,
+  DataError
+} from 'objection'
+
 export const NotFound = (
   message = 'The requested resource could not be found'
 ) => ({
@@ -45,15 +54,14 @@ export const getErrorByStatusCode = statusCode => {
     case 400:
       return BadRequest
     case 500:
+    default:
       return InternalServerError
     case 401:
       return Unauthorized
-    default:
-      return
   }
 }
 
-export const errorHandling = err => {
+const internalError = err => {
   if (err.errorCode) {
     return err
   }
@@ -65,4 +73,75 @@ export const errorHandling = err => {
   const errorLib = getErrorByStatusCode(err.statusCode || err.status || 500)
 
   return errorLib(err.message || err.toString())
+}
+
+export const errorHandling = err => {
+  if (err.statusCode) {
+    return internalError(err)
+  }
+
+  if (err instanceof UniqueViolationError) {
+    return {
+      type: err.name,
+      data: {
+        columns: err.columns,
+        table: err.table,
+        constraint: err.constraint
+      },
+      statusCode: 409
+    }
+  }
+  if (err instanceof NotNullViolationError) {
+    return {
+      type: err.name,
+      data: {
+        column: err.column,
+        table: err.table
+      },
+      statusCode: 400
+    }
+  }
+  if (err instanceof ForeignKeyViolationError) {
+    return {
+      type: err.name,
+      data: {
+        table: err.table,
+        constraint: err.constraint
+      },
+      statusCode: 409
+    }
+  }
+  if (err instanceof CheckViolationError) {
+    return {
+      type: err.name,
+      data: {
+        table: err.table,
+        constraint: err.constraint
+      },
+      statusCode: 400
+    }
+  }
+  if (err instanceof DataError) {
+    return {
+      type: err.name,
+      data: {},
+      statusCode: 400
+    }
+  }
+  if (err instanceof DBError) {
+    return {
+      type: 'UnknownDatabaseError',
+      data: {
+        message: err.message
+      },
+      statusCode: 500
+    }
+  }
+  return {
+    type: 'UnknownError',
+    data: {
+      message: err.message
+    },
+    statusCode: 500
+  }
 }

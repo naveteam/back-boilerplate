@@ -1,5 +1,6 @@
 # Node API boilerplate by nave.rs
-A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bookshelf.
+
+A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, objection.
 
 # Getting started
 
@@ -13,9 +14,11 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bo
 ## Things to do before run the project:
 
 1. Create database (by follow the commands):
-  - CREATE USER `user` WITH PASSWORD `password`
-  - CREATE DATABASE `database`
-  - GRANT ALL PRIVILEGES ON DATABASE `database` to `user`
+
+- CREATE USER `user` WITH PASSWORD `password`
+- CREATE DATABASE `database`
+- GRANT ALL PRIVILEGES ON DATABASE `database` to `user`
+
 2. Install `citext` extension on your database with the command `CREATE EXTENSION citext;`
 3. Change name value of .env.example to .env and set the key SECRET to any value you wish
 4. Change DATABASE_URL to postgress://`user`:`password`@`localhost`/`database`
@@ -45,7 +48,7 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, bo
 
 ## Insomnia
 
-[![Run in Insomnia](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Back%20Boilerplate%20Nave.rs&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fnaveteam%2Fback-boilerplate%2Fmaster%2Finsomnia.json)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/aba33a508a2c4dff0754)
 
 ## Styleguide
 

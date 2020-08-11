@@ -1,5 +1,6 @@
 export const up = knex =>
   knex.schema
+    .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('roles', table => {
       table.increments('id').primary()
       table.string('role').notNullable()

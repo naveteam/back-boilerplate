@@ -1,6 +1,6 @@
 import { Unauthorized } from 'helpers'
 
-const getToken = ({ headers }) => {
+export const getToken = ({ headers }) => {
   if (!headers.authorization) {
     throw Unauthorized('You need to submit a token')
   }
@@ -12,5 +12,3 @@ const getToken = ({ headers }) => {
 
   return token
 }
-
-export default getToken

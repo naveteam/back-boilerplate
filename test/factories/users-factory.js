@@ -1,4 +1,5 @@
 import User from 'models/User'
+
 import {
   stringGenerator,
   emailGenerator,
@@ -9,17 +10,22 @@ import {
 const userFactory = async () => {
   const password = 'test123'
 
-  const user = await new User({
+  const user = await User.query().insert({
     name: stringGenerator(),
     email: emailGenerator(),
     password: await encryptPassword(password),
     role_id: 1
-  }).save()
+  })
+
+  const parsedUser = user.toJSON()
 
   return {
-    ...user.attributes,
+    ...parsedUser,
     password,
-    token: `Bearer ${generateJWTToken(user.attributes)}`
+    token: `Bearer ${generateJWTToken({
+      id: parsedUser.id,
+      role_id: parsedUser.role_id
+    })}`
   }
 }
 

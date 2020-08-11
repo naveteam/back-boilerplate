@@ -2,6 +2,7 @@ import request from 'supertest'
 import app from 'server'
 import { DatabaseTest } from 'helpers'
 import UserFactory from 'test/factories/users-factory'
+import RoleFactory from 'test/factories/role-factory'
 
 jest.mock('helpers/nodemailer')
 
@@ -9,6 +10,7 @@ describe('TEST USERS', () => {
   beforeEach(async () => {
     await DatabaseTest.createDB()
     global.server = app.listen()
+    await RoleFactory()
     global.user = await UserFactory()
   })
 
@@ -104,13 +106,7 @@ describe('TEST USERS', () => {
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining([
-          'name',
-          'message',
-          'deleted',
-          'statusCode',
-          'errorCode'
-        ])
+        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
       )
     })
   })

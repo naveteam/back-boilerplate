@@ -3,12 +3,12 @@ import Logger from 'koa-logger'
 import Cors from '@koa/cors'
 import koaBody from 'koa-body'
 import jwt from 'koa-jwt'
+import helmet from 'koa-helmet'
 
 import routes from 'routes'
-import getToken from 'middlewares/jwt-middleware'
+import { getToken } from 'middlewares'
 import { errorHandling } from 'helpers'
 import { JWT_SECRET } from 'config'
-import helmet from 'koa-helmet'
 
 const app = new Koa()
 
@@ -31,7 +31,6 @@ app.use(async (ctx, next) => {
   } catch (err) {
     const errorObject = errorHandling(err)
     ctx.status = errorObject.statusCode
-
     ctx.body = errorObject
   }
 })
@@ -41,7 +40,13 @@ app.use(
     secret: JWT_SECRET,
     getToken
   }).unless({
-    path: ['/v1/users/login', '/v1/users/signup', '/public']
+    path: [
+      '/v1/users/login',
+      '/v1/users/signup',
+      '/v1/users/forget',
+      '/v1/users/reset',
+      '/public'
+    ]
   })
 )
 

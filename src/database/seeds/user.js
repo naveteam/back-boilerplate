@@ -1,4 +1,4 @@
-import uuidv4 from 'uuid/v4'
+import { v4 } from 'uuid'
 
 import { encryptPassword } from '../../helpers/password'
 
@@ -6,7 +6,7 @@ export const seed = async knex => {
   await knex('users').del()
   await knex('users').insert([
     {
-      id: uuidv4(),
+      id: v4(),
       name: 'Nave Team',
       email: 'tech@nave.rs',
       password: await encryptPassword('teste1'),
