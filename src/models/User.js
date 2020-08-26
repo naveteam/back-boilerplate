@@ -1,9 +1,9 @@
 import { Model } from 'objection'
 
 import Role from './Role'
-import { baseModel, modelUuid } from './index'
+import { baseModel } from './index'
 
-class User extends modelUuid(baseModel) {
+class User extends baseModel {
   static tableName = 'users'
   static hidden = ['password']
 
