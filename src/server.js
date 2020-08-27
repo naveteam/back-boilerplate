@@ -4,6 +4,7 @@ import Cors from '@koa/cors'
 import koaBody from 'koa-body'
 import jwt from 'koa-jwt'
 import helmet from 'koa-helmet'
+import logger from 'logger'
 
 import routes from 'routes'
 import { getToken } from 'middlewares'
@@ -29,6 +30,7 @@ app.use(async (ctx, next) => {
   try {
     ctx.body = await next()
   } catch (err) {
+    logger.error(err)
     const errorObject = errorHandling(err)
     ctx.status = errorObject.statusCode
     ctx.body = errorObject

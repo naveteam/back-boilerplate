@@ -11,7 +11,7 @@
     "node": ">=10.14.0"
   },
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node --inspect src/index.js",
+    "dev": "nodemon src/index.js --exec babel-node --inspect src/index.js | pino-pretty -c",
     "start": "node build/index.js",
     "build": "rm -rf build && mkdir build && babel src -s -d build",
     "pm2": "pm2 start build/index.js -i ${PM2_WORKERS-2} --max-memory-restart ${PM2_MAX_MEM-256M} --env production",
@@ -80,6 +80,7 @@
     "objection-guid": "^3.0.2",
     "objection-visibility": "^1.0.0",
     "pg": "^8.0.0",
+    "pino": "^6.5.1",
     "sqlite3": "^4.1.0",
     "uuid": "^7.0.3",
     "xhr2": "^0.2.0"
@@ -104,6 +105,7 @@
     "jest": "^25.3.0",
     "lint-staged": "10.1.2",
     "nodemon": "^2.0.2",
+    "pino-pretty": "^4.1.0",
     "prettier": "^2.0.4",
     "supertest": "^4.0.2"
   },
