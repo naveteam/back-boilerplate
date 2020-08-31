@@ -1,24 +1,18 @@
 import User from 'models/User'
+import chance from 'chance'
 
-import {
-  stringGenerator,
-  emailGenerator,
-  generateJWTToken,
-  encryptPassword
-} from 'helpers'
+import { generateJWTToken, encryptPassword } from 'helpers'
 
 const userFactory = async () => {
   const password = 'test123'
-
   const user = await User.query().insert({
-    name: stringGenerator(),
-    email: emailGenerator(),
+    name: chance().name(),
+    email: chance().email(),
     password: await encryptPassword(password),
     role_id: 1
   })
 
   const parsedUser = user.toJSON()
-
   return {
     ...parsedUser,
     password,
