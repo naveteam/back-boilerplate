@@ -27,6 +27,21 @@ export const env = (key, defaultValue) => {
 }
 
 /**
+ * Get ALLOW_LIST variable from process.env
+ * @param {array} The list of defaultValues if none is setted
+ * inside .env file
+ *
+ * @returns {*} The variable value or the defaultValue
+ */
+export const allowList = (defaultValue = ['@nave.rs']) => {
+  if (!process.env.ALLOW_LIST) {
+    return [...defaultValue]
+  }
+
+  return process.env.ALLOW_LIST.split(',')
+}
+
+/**
  * Node environment
  * @constant {string}
  */
@@ -63,6 +78,6 @@ export const MAIL_TYPE = env('MAIL_TYPE', 'gmail')
  * List of emails allowed to use
  * @constant {string}
  */
-export const ALLOW_LIST = env('ALLOW_LIST', JSON.stringify(['@nave.rs']))
+export const ALLOW_LIST = allowList()
 
 export default env

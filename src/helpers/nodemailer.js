@@ -7,16 +7,11 @@ const DOMAIN_REGEX = /@.{2,}\..{1,}/
 export const sendEmail = (sendTo, emailBody) => {
   if (NODE_ENV !== 'production') {
     try {
-      const allowList = JSON.parse(ALLOW_LIST)
-
-      if (
-        allowList.length === 0 ||
-        allowList.find(domain => !DOMAIN_REGEX.test(domain))
-      ) {
+      if (ALLOW_LIST.find(domain => !DOMAIN_REGEX.test(domain))) {
         return
       }
 
-      const isAllowed = allowList.find(domain => sendTo.includes(domain))
+      const isAllowed = ALLOW_LIST.find(domain => sendTo.includes(domain))
 
       if (!isAllowed) {
         return

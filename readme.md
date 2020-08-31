@@ -56,12 +56,12 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, ob
 
 ## Nodemailer
 
-To use the nodemailer helper in a non-production environment, you need to set the variable in .env `ALLOW_LIST` and assign an array with the domains allowed for sending e-mail. This domain must start with an `@`, followed by a minimum of 2 characters, a `.` and 2 characters in the end.
+To use the nodemailer helper in a non-production environment, you need to set the variable in .env `ALLOW_LIST` and assign a string joined by a comma(if more than one domain) with the domains allowed for sending e-mail. This domain must start with an `@`, followed by a minimum of 2 characters, a `.` and 2 characters in the end.
 In case the informed email is not part of any informed domain, the email will not be sent.
 
 ### Examples:
 
-- ALLOW_LIST=["@nave.rs"]
+- ALLOW_LIST=@nave.rs
 - EMAIL_1: gustavo@nave.rs - `ALLOWED`
 - EMAIL_2: gcdpinho@gmail.com - `NOT ALLOWED`
 
