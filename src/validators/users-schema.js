@@ -1,10 +1,10 @@
 import Joi from '@hapi/joi'
 
-import { validateSchema } from 'helpers'
+import { validationMiddleware } from 'middlewares'
 
 const UsersValidate = {
   create: () =>
-    validateSchema({
+    validationMiddleware({
       body: {
         name: Joi.string().required(),
         email: Joi.string().email().required(),
@@ -14,7 +14,7 @@ const UsersValidate = {
     }),
 
   update: () =>
-    validateSchema({
+    validationMiddleware({
       body: {
         name: Joi.string().required(),
         email: Joi.string().email().required(),
