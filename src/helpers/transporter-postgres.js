@@ -45,20 +45,20 @@ export class PostgresTransport extends Transport {
 }
 
 export const createTransporterPostgres = () => {
-  const a = DATABASE.split('//')[1].split(':')
-  const user = a[0]
-  const b = a[1].split('@')
-  const password = b[0]
-  const c = b[1].split('/')
-  const host = c[0]
-  const d = a[1].split('/')
-  const database = d[1]
+  const [user, passwordWithRemainingString, portWithRemaining] = DATABASE.split(
+    '//'
+  )[1].split(':')
+
+  const [port, database] = portWithRemaining.split('/')
+
+  const [password, host] = passwordWithRemainingString.split('@')
 
   const pool = new Pool({
-    host: host,
-    user: user,
-    password: password,
-    database: database
+    host,
+    port,
+    user,
+    password,
+    database
   })
 
   const opts = {
