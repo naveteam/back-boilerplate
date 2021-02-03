@@ -19,6 +19,16 @@ export const up = knex =>
         .onDelete('CASCADE')
       table.timestamps(true, true)
     })
+    .createTable('logs', table => {
+      table.uuid('id').primary()
+      table.string('level')
+      table.string('message')
+      table.json('meta')
+      table.timestamp('timestamp', { useTz: true }).defaultTo(knex.fn.now())
+    })
 
 export const down = knex =>
-  knex.schema.dropTableIfExists('users').dropTableIfExists('roles')
+  knex.schema
+    .dropTableIfExists('users')
+    .dropTableIfExists('roles')
+    .dropTableIfExists('logs')

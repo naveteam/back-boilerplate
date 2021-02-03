@@ -3,14 +3,43 @@ import Logger from 'koa-logger'
 import Cors from '@koa/cors'
 import koaBody from 'koa-body'
 import helmet from 'koa-helmet'
+import { logger } from 'koa2-winston'
+import * as winston from 'winston'
 
 import routes from 'routes'
 import { authMiddleware, errorHandlingMiddleware } from 'middlewares'
+import { createCloudwatchTransporter, createTransporterPostgres } from 'helpers'
+import { LOGGER_GROUP, LOGGER_STREAM_GENERAL } from './utils'
 
 const app = new Koa()
 
 app.use(helmet())
-app.use(Logger())
+
+app.use(
+  logger({
+    transports: [
+      createTransporterPostgres(),
+      new winston.transports.Console({ simple: true, colorize: true }),
+      new winston.transports.Console({ simple: true, json: true })
+    ],
+
+    reqKeys: [
+      'header',
+      'url',
+      'method',
+      'httpVersion',
+      'href',
+      'query',
+      'length',
+      'body'
+    ],
+    reqSelect: [],
+    reqUnselect: ['header.cookie', 'header.authorization', 'body.password'],
+    resKeys: ['header', 'status'],
+    resSelect: [],
+    resUnselect: []
+  })
+)
 
 app.use(
   Cors({
