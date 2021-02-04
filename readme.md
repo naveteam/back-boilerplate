@@ -46,7 +46,7 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, ob
 ├── /test
 ```
 
-## Insomnia
+## Postman
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/aba33a508a2c4dff0754)
 
@@ -65,4 +65,12 @@ In case the informed email is not part of any informed domain, the email will no
 - EMAIL_1: gustavo@nave.rs - `ALLOWED`
 - EMAIL_2: gcdpinho@gmail.com - `NOT ALLOWED`
 
-The following domains: `nave.rs` and` @nave` are not allowed as they do not satisfy the domain description, given above.
+The following domains: `nave.rs` and`@nave` are not allowed as they do not satisfy the domain description, given above.
+
+## Database
+
+This project uses objection.js as ORM and knex as query builder.
+
+### Migrations:
+
+In order not to use before update hooks on our models, we decided to create a function and trigger via migration, everytime you create a table with updated_at add the trigger to it. (an example is in the file: "src/database/migrations/20180910221504_init.js")
