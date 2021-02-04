@@ -60,7 +60,7 @@ describe('TEST USERS', () => {
         .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body[0])).toEqual(
+      expect(Object.keys(response.body.results[0])).toEqual(
         expect.arrayContaining(['id', 'name', 'email', 'role_id'])
       )
     })
