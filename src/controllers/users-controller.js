@@ -35,7 +35,26 @@ export const login = async ctx => {
   }
 }
 
-export const index = () => User.query().withGraphFetched('role')
+export const index = ctx => {
+  const {
+    email,
+    name,
+    role,
+    nameOrder = 'asc',
+    page = 0,
+    pageSize = 10
+  } = ctx.query
+
+  return User.query()
+    .where(builder => {
+      if (email) builder.where('email', 'ilike', `%${email}%`)
+      if (name) builder.where('name', 'ilike', `%${name}%`)
+      if (role) builder.whereIn('role_id', Array.isArray(role) ? role : [role])
+    })
+    .withGraphFetched('role')
+    .orderBy('name', nameOrder)
+    .page(page, pageSize)
+}
 
 export const forget = async ctx => {
   const { body } = ctx.request
@@ -72,7 +91,10 @@ export const reset = async ctx => {
 }
 
 export const show = ctx =>
-  User.query().findOne({ id: ctx.params.id }).withGraphFetched('role')
+  User.query()
+    .findOne({ id: ctx.params.id })
+    .withGraphFetched('role')
+    .throwIfNotFound()
 
 export const create = async ctx => {
   const { body } = ctx.request

@@ -13,7 +13,7 @@ Model.knex(knex)
 export const modelUuid = guid()
 export class baseModel extends mixin(Model, [visibility, DBErrors]) {
   static query(...args) {
-    return super.query(...args).throwIfNotFound()
+    return super.query(...args)
   }
 }
 
