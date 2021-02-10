@@ -8,3 +8,5 @@ export const generateJWTToken = tokenData =>
 
 export const encryptPassword = (password, length = 10) =>
   bcrypt.hash(password, length)
+
+export const verifyToken = token => jwt.verify(token, JWT_SECRET)
