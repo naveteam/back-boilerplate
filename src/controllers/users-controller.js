@@ -8,9 +8,12 @@ import {
   encryptPassword,
   generateJWTToken,
   sendEmail,
-  NotFound
+  NotFound,
+  verifyToken
 } from 'helpers'
+
 import { templateForgetPassword } from 'utils'
+import { getToken } from 'middlewares'
 
 export const login = async ctx => {
   const { body } = ctx.request
@@ -122,6 +125,22 @@ export const destroy = ctx =>
 
 export const me = ctx => User.query().findOne({ id: ctx.state.user.id })
 
+export const refreshToken = ctx => {
+  try {
+    const token = getToken(ctx)
+    const tokenDecoded = verifyToken(token)
+
+    return {
+      newToken: generateJWTToken({
+        id: tokenDecoded.id,
+        role_id: tokenDecoded.role_id
+      })
+    }
+  } catch (error) {
+    throw Unauthorized(error)
+  }
+}
+
 export default {
   index,
   create,
@@ -131,5 +150,6 @@ export default {
   update,
   show,
   destroy,
-  me
+  me,
+  refreshToken
 }

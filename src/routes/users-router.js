@@ -15,6 +15,8 @@ router.post('/users/forget', UserController.forget)
 router.post('/users/reset', UserController.reset)
 
 router.get('/users/:id', UserController.show)
+
+router.put('/users/refresh-token', UserController.refreshToken)
 router.put('/users/:id', UserValidate.update(), UserController.update)
 
 router.delete('/users/:id', UserController.destroy)
