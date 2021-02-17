@@ -3,13 +3,16 @@ import crypto from 'crypto'
 
 import User from 'models/User'
 
+import { OAuth2 } from '@naveteam/pandora-backend'
+
 import {
   Unauthorized,
   encryptPassword,
   generateJWTToken,
   sendEmail,
   NotFound,
-  verifyToken
+  verifyToken,
+  generateOAuthToken
 } from 'helpers'
 
 import { templateForgetPassword } from 'utils'
@@ -34,7 +37,10 @@ export const login = async ctx => {
 
   return {
     ...parsedUser,
-    token: generateJWTToken({ id: parsedUser.id, role_id: parsedUser.role_id })
+    token: generateOAuthToken({
+      id: parsedUser.id,
+      role_id: parsedUser.role_id
+    })
   }
 }
 
@@ -141,6 +147,12 @@ export const refreshToken = ctx => {
   }
 }
 
+export const refreshOAuthToken = ctx => {
+  const { body } = ctx.request
+
+  return OAuth2.refreshAccessToken(body)
+}
+
 export default {
   index,
   create,
@@ -151,5 +163,6 @@ export default {
   show,
   destroy,
   me,
-  refreshToken
+  refreshToken,
+  refreshOAuthToken
 }
