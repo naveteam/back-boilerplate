@@ -5,7 +5,7 @@ dotenv.config({
   path: path.resolve(__dirname, '../.env')
 })
 
-export const JWT_SECRET = process.env.SECRET || 'mysupersecret'
+export const ACCESS_SECRET = process.env.ACCESS_SECRET || 'mysupersecret'
 export const PORT = process.env.PORT || 3000
 export const DATABASE =
   process.env.DATABASE_URL || 'postgres://USER:PASSWORD@localhost:5432/DATABASE'

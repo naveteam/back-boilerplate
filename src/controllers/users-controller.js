@@ -6,14 +6,13 @@ import User from 'models/User'
 import {
   Unauthorized,
   encryptPassword,
-  generateJWTToken,
   sendEmail,
   NotFound,
-  verifyToken
+  generateTokens,
+  refreshOAuthToken
 } from 'helpers'
 
 import { templateForgetPassword } from 'utils'
-import { getToken } from 'middlewares'
 
 export const login = async ctx => {
   const { body } = ctx.request
@@ -34,7 +33,10 @@ export const login = async ctx => {
 
   return {
     ...parsedUser,
-    token: generateJWTToken({ id: parsedUser.id, role_id: parsedUser.role_id })
+    ...generateTokens({
+      id: parsedUser.id,
+      role_id: parsedUser.role_id
+    })
   }
 }
 
@@ -126,19 +128,11 @@ export const destroy = ctx =>
 export const me = ctx => User.query().findOne({ id: ctx.state.user.id })
 
 export const refreshToken = ctx => {
-  try {
-    const token = getToken(ctx)
-    const tokenDecoded = verifyToken(token)
+  const { body } = ctx.request
 
-    return {
-      newToken: generateJWTToken({
-        id: tokenDecoded.id,
-        role_id: tokenDecoded.role_id
-      })
-    }
-  } catch (error) {
-    throw Unauthorized(error)
-  }
+  return refreshOAuthToken(body).catch(() => {
+    throw Unauthorized('Invalid refresh token')
+  })
 }
 
 export default {
