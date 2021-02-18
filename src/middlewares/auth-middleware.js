@@ -1,6 +1,6 @@
 import jwt from 'koa-jwt'
 
-import { JWT_SECRET } from 'config'
+import { ACCESS_SECRET } from 'config'
 import { Unauthorized } from 'helpers'
 
 export const getToken = ({ headers }) => {
@@ -17,7 +17,7 @@ export const getToken = ({ headers }) => {
 }
 
 export const authMiddleware = jwt({
-  secret: JWT_SECRET,
+  secret: ACCESS_SECRET,
   getToken
 }).unless({
   path: [
