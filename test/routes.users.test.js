@@ -48,7 +48,14 @@ describe('TEST USERS', () => {
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'token', 'role_id'])
+        expect.arrayContaining([
+          'id',
+          'name',
+          'email',
+          'access_token',
+          'refresh_token',
+          'role_id'
+        ])
       )
     })
   })
@@ -94,6 +101,29 @@ describe('TEST USERS', () => {
       expect(response.type).toEqual('application/json')
       expect(Object.keys(response.body)).toEqual(
         expect.arrayContaining(['id', 'name', 'email', 'role_id'])
+      )
+    })
+  })
+
+  describe('PUT /v1/users/refresh-token', () => {
+    test('should update tokens', async () => {
+      const {
+        body: { refresh_token }
+      } = await request(global.server).post('/v1/users/login').send({
+        email: global.user.email,
+        password: global.user.password
+      })
+
+      const response = await request(global.server)
+        .put('/v1/users/refresh-token')
+        .set('Authorization', global.user.token)
+        .send({
+          refresh_token: refresh_token
+        })
+      expect(response.status).toEqual(200)
+      expect(response.type).toEqual('application/json')
+      expect(Object.keys(response.body)).toEqual(
+        expect.arrayContaining(['access_token', 'refresh_token'])
       )
     })
   })
