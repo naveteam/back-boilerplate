@@ -1,5 +1,4 @@
 import Koa from 'koa'
-import Logger from 'koa-logger'
 import Cors from '@koa/cors'
 import koaBody from 'koa-body'
 import helmet from 'koa-helmet'
@@ -19,25 +18,19 @@ app.use(
   logger({
     transports: [
       createTransporterPostgres(),
-      new winston.transports.Console({ simple: true, colorize: true }),
-      new winston.transports.Console({ simple: true, json: true })
+      new winston.transports.Console({
+        format: winston.format.combine(
+          winston.format.simple(),
+          winston.format.colorize({ all: true })
+        )
+      })
     ],
-
-    reqKeys: [
-      'header',
-      'url',
-      'method',
-      'httpVersion',
-      'href',
-      'query',
-      'length',
-      'body'
-    ],
+    reqKeys: ['header.content-type', 'query', 'body'],
     reqSelect: [],
     reqUnselect: ['header.cookie', 'header.authorization', 'body.password'],
-    resKeys: ['header', 'status'],
+    resKeys: ['status', 'message'],
     resSelect: [],
-    resUnselect: []
+    resUnselect: ['header']
   })
 )
 
