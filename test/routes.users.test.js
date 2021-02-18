@@ -31,9 +31,12 @@ describe('TEST USERS', () => {
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
-      )
+      expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+        role_id: expect.any(Number)
+      })
     })
   })
 
@@ -47,16 +50,14 @@ describe('TEST USERS', () => {
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining([
-          'id',
-          'name',
-          'email',
-          'access_token',
-          'refresh_token',
-          'role_id'
-        ])
-      )
+      expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+        role_id: expect.any(Number),
+        access_token: expect.any(String),
+        refresh_token: expect.any(String)
+      })
     })
   })
 
@@ -67,9 +68,12 @@ describe('TEST USERS', () => {
         .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body.results[0])).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
-      )
+      expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+        role_id: expect.any(Number)
+      })
     })
   })
 
@@ -80,9 +84,12 @@ describe('TEST USERS', () => {
         .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
-      )
+      expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+        role_id: expect.any(Number)
+      })
     })
   })
 
@@ -99,9 +106,12 @@ describe('TEST USERS', () => {
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
-      )
+      expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+        role_id: expect.any(Number)
+      })
     })
   })
 
@@ -122,9 +132,10 @@ describe('TEST USERS', () => {
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['access_token', 'refresh_token'])
-      )
+      expect.objectContaining({
+        access_token: expect.any(String),
+        refresh_token: expect.any(String)
+      })
     })
   })
 
@@ -135,9 +146,12 @@ describe('TEST USERS', () => {
         .set('Authorization', global.user.token)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
-      expect(Object.keys(response.body)).toEqual(
-        expect.arrayContaining(['id', 'name', 'email', 'role_id'])
-      )
+      expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+        role_id: expect.any(Number)
+      })
     })
   })
 })
