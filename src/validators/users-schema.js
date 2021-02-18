@@ -21,6 +21,13 @@ const UsersValidate = {
         password: Joi.string().min(1).max(100).optional(),
         role_id: Joi.number().required()
       }
+    }),
+
+  refreshToken: () =>
+    validationMiddleware({
+      body: {
+        refresh_token: Joi.string().required()
+      }
     })
 }
 

@@ -118,7 +118,7 @@ describe('TEST USERS', () => {
         .put('/v1/users/refresh-token')
         .set('Authorization', global.user.token)
         .send({
-          refresh_token: refresh_token
+          refresh_token
         })
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
