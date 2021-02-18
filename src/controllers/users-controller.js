@@ -3,20 +3,16 @@ import crypto from 'crypto'
 
 import User from 'models/User'
 
-import { OAuth2 } from '@naveteam/pandora-backend'
-
 import {
   Unauthorized,
   encryptPassword,
-  generateJWTToken,
   sendEmail,
   NotFound,
-  verifyToken,
-  generateOAuthToken
+  generateTokens,
+  refreshOAuthToken
 } from 'helpers'
 
 import { templateForgetPassword } from 'utils'
-import { getToken } from 'middlewares'
 
 export const login = async ctx => {
   const { body } = ctx.request
@@ -37,7 +33,7 @@ export const login = async ctx => {
 
   return {
     ...parsedUser,
-    token: generateOAuthToken({
+    ...generateTokens({
       id: parsedUser.id,
       role_id: parsedUser.role_id
     })
@@ -132,25 +128,11 @@ export const destroy = ctx =>
 export const me = ctx => User.query().findOne({ id: ctx.state.user.id })
 
 export const refreshToken = ctx => {
-  try {
-    const token = getToken(ctx)
-    const tokenDecoded = verifyToken(token)
-
-    return {
-      newToken: generateJWTToken({
-        id: tokenDecoded.id,
-        role_id: tokenDecoded.role_id
-      })
-    }
-  } catch (error) {
-    throw Unauthorized(error)
-  }
-}
-
-export const refreshOAuthToken = ctx => {
   const { body } = ctx.request
 
-  return OAuth2.refreshAccessToken(body)
+  return refreshOAuthToken(body).catch(() => {
+    throw Unauthorized('Invalid refresh token')
+  })
 }
 
 export default {
@@ -163,6 +145,5 @@ export default {
   show,
   destroy,
   me,
-  refreshToken,
-  refreshOAuthToken
+  refreshToken
 }
