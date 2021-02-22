@@ -9,7 +9,8 @@ const UsersValidate = {
         name: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(1).max(100).required(),
-        role_id: Joi.number().required()
+        role_id: Joi.number().required(),
+        birthdate: Joi.date().required()
       }
     }),
 
@@ -19,7 +20,8 @@ const UsersValidate = {
         name: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(1).max(100).optional(),
-        role_id: Joi.number().required()
+        role_id: Joi.number().required(),
+        birthdate: Joi.date().required()
       }
     }),
 
