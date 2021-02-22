@@ -107,7 +107,8 @@ export const create = async ctx => {
     name: body.name,
     password: await encryptPassword(body.password),
     email: body.email,
-    role_id: body.role_id
+    role_id: body.role_id,
+    birthdate: body.birthdate
   })
 }
 
@@ -118,7 +119,8 @@ export const update = async ctx => {
     name: body.name,
     email: body.email,
     password: await encryptPassword(body.password),
-    role_id: body.role_id
+    role_id: body.role_id,
+    birthdate: body.birthdate
   })
 }
 
