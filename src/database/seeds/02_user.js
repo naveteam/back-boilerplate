@@ -11,7 +11,6 @@ export const seed = async knex => {
       email: 'tech@nave.rs',
       password: await encryptPassword('teste1'),
       role_id: 1,
-      birthdate: '1998-01-01',
       created_at: new Date(),
       updated_at: new Date()
     }
