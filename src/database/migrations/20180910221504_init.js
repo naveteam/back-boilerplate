@@ -20,6 +20,7 @@ export const up = knex =>
       table.specificType('email', 'CITEXT').unique().notNullable()
       table.string('password').notNullable()
       table.string('password_reset_token').unique()
+      table.date('birthdate').notNullable()
       table.integer('role_id').unsigned()
       table
         .foreign('role_id')

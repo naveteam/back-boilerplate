@@ -9,7 +9,8 @@ const userFactory = async () => {
     name: chance().name(),
     email: chance().email(),
     password: await encryptPassword(password),
-    role_id: 1
+    role_id: 1,
+    birthdate: chance().date()
   })
 
   const parsedUser = user.toJSON()
