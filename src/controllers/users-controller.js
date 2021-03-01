@@ -125,7 +125,7 @@ export const update = async ctx => {
 }
 
 export const destroy = ctx =>
-  User.query().deleteById(ctx.state.user.id).returning('*')
+  User.query().deleteById(ctx.params.id).returning('*')
 
 export const me = ctx => User.query().findOne({ id: ctx.state.user.id })
 
