@@ -9,7 +9,8 @@ import {
   sendEmail,
   NotFound,
   generateTokens,
-  refreshOAuthToken
+  refreshOAuthToken,
+  getPagination
 } from 'helpers'
 
 import { templateForgetPassword } from 'utils'
@@ -40,17 +41,12 @@ export const login = async ctx => {
   }
 }
 
-export const index = ctx => {
-  const {
-    email,
-    name,
-    role,
-    nameOrder = 'asc',
-    page = 0,
-    pageSize = 10
-  } = ctx.query
+export const index = async ctx => {
+  const { email, name, role, nameOrder = 'asc' } = ctx.query
 
-  return User.query()
+  const { page, pageSize, calculatePageCount } = getPagination(ctx.query)
+
+  const users = await User.query()
     .where(builder => {
       if (email) builder.where('email', 'ilike', `%${email}%`)
       if (name) builder.where('name', 'ilike', `%${name}%`)
@@ -59,6 +55,12 @@ export const index = ctx => {
     .withGraphFetched('role')
     .orderBy('name', nameOrder)
     .page(page, pageSize)
+
+  return {
+    ...users,
+    page: page + 1,
+    pageCount: calculatePageCount(users.total)
+  }
 }
 
 export const forget = async ctx => {
