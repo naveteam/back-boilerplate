@@ -2,7 +2,22 @@ import Joi from '@hapi/joi'
 
 import { validationMiddleware } from 'middlewares'
 
+const VALID_SORT_OPTIONS = ['name', 'created_at']
+
+const VALID_ORDER_BY_OPTIONS = ['asc', 'desc', 'ASC', 'DESC']
+
 const UsersValidate = {
+  index: () =>
+    validationMiddleware({
+      query: {
+        name: Joi.string(),
+        role: Joi.array().items(Joi.number()).single(),
+        created_at: Joi.string(),
+        sort: Joi.string().valid(...VALID_SORT_OPTIONS),
+        order: Joi.string().valid(...VALID_ORDER_BY_OPTIONS)
+      }
+    }),
+
   create: () =>
     validationMiddleware({
       body: {
