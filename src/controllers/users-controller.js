@@ -21,9 +21,11 @@ export const login = async ctx => {
   const user = await User.query()
     .findOne({ email: body.email })
     .withGraphFetched('role')
+    .throwIfNotFound()
     .catch(() => {
       throw Unauthorized('Unauthorized, User not found')
     })
+
   const isValid = await bcrypt.compare(body.password, user.password)
 
   if (!isValid) {
@@ -42,15 +44,19 @@ export const login = async ctx => {
 }
 
 export const index = async ctx => {
-  const { email, name, role, nameOrder = 'asc' } = ctx.query
+  const { email, name, role, nameOrder = 'asc', created_at } = ctx.query
 
   const { page, pageSize, calculatePageCount } = getPagination(ctx.query)
 
   const users = await User.query()
     .where(builder => {
       if (email) builder.where('email', 'ilike', `%${email}%`)
+
       if (name) builder.where('name', 'ilike', `%${name}%`)
+
       if (role) builder.whereIn('role_id', Array.isArray(role) ? role : [role])
+
+      if (created_at) builder.where('created_at', created_at)
     })
     .withGraphFetched('role')
     .orderBy('name', nameOrder)
