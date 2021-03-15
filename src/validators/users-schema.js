@@ -10,6 +10,9 @@ const UsersValidate = {
   index: () =>
     validationMiddleware({
       query: {
+        page: Joi.number(),
+        pageSize: Joi.number(),
+        email: Joi.string(),
         name: Joi.string(),
         role: Joi.array().items(Joi.number()).single(),
         created_at: Joi.string(),
