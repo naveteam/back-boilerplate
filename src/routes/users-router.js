@@ -7,7 +7,7 @@ const router = new Router()
 
 router.get('/me', UserController.me)
 
-router.get('/users', UserController.index)
+router.get('/users', UserValidate.index(), UserController.index)
 
 router.post('/users/signup', UserValidate.create(), UserController.create)
 router.post('/users/login', UserController.login)

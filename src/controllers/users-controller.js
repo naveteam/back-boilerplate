@@ -44,7 +44,14 @@ export const login = async ctx => {
 }
 
 export const index = async ctx => {
-  const { email, name, role, nameOrder = 'asc', created_at } = ctx.query
+  const {
+    email,
+    name,
+    role,
+    sort = 'created_at',
+    order = 'desc',
+    created_at
+  } = ctx.query
 
   const { page, pageSize, calculatePageCount } = getPagination(ctx.query)
 
@@ -59,7 +66,7 @@ export const index = async ctx => {
       if (created_at) builder.where('created_at', created_at)
     })
     .withGraphFetched('role')
-    .orderBy('name', nameOrder)
+    .orderBy(sort, order)
     .page(page, pageSize)
 
   return {
