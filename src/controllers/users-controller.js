@@ -63,7 +63,7 @@ export const index = async ctx => {
 
       if (role) builder.whereIn('role_id', Array.isArray(role) ? role : [role])
 
-      if (created_at) builder.where('created_at', created_at)
+      if (created_at) builder.whereRaw('date(created_at) = ?', created_at)
     })
     .withGraphFetched('role')
     .orderBy(sort, order)
