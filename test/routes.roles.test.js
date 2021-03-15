@@ -23,7 +23,6 @@ describe('TEST ROLES', () => {
         .get('/v1/roles')
         .set('Authorization', global.user.token)
 
-      console.log(response.body.results)
       expect(response.status).toEqual(200)
       expect(response.type).toEqual('application/json')
       expect(response.body.results[0]).toEqual(
