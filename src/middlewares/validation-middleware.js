@@ -4,7 +4,8 @@ import { BadRequest } from 'helpers'
 
 const validateObject = (object = {}, label, schema, options) => {
   if (schema) {
-    const { error, value } = Joi.object(schema).validate(object, options)
+    schema = Joi.isSchema(schema) ? schema : Joi.object(schema)
+    const { error, value } = schema.validate(object, options)
     if (error) {
       throw new Error(`Invalid ${label} - ${error.message}`)
     }
