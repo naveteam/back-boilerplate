@@ -74,3 +74,8 @@ This project uses objection.js as ORM and knex as query builder.
 ### Migrations:
 
 In order not to use before update hooks on our models, we decided to create a function and trigger via migration, everytime you create a table with updated_at add the trigger to it. (an example is in the file: "src/database/migrations/20180910221504_init.js")
+
+## Steps to use Queue UI
+
+1. After adding a new queue, need to add in queue.js a new `BullAdapter`
+2. Acess UI on http://localhost:3001/v1/queues/dashboards

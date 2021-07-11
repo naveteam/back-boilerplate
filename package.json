@@ -60,7 +60,6 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@bull-board/api": "^3.3.0",
-    "@bull-board/express": "^3.3.0",
     "@bull-board/koa": "^3.3.0",
     "@hapi/joi": "^17.1.1",
     "@koa/cors": "^3.0.0",
