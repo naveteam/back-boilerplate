@@ -1,6 +1,6 @@
 {
   "extends": ["prettier/standard"],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "plugins": ["import", "prettier", "standard"],
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 1 }],

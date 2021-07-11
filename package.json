@@ -36,6 +36,7 @@
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.14.7",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-proposal-do-expressions": "^7.0.0",
@@ -98,7 +99,7 @@
     "chance": "^1.1.7",
     "commitlint": "^8.2.0",
     "cz-conventional-changelog": "^3.0.2",
-    "eslint": "^6.4.0",
+    "eslint": "^7.30.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
