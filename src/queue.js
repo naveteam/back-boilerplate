@@ -1,18 +1,16 @@
 import Koa from 'koa'
-import Queue from 'bull'
 import { createBullBoard } from '@bull-board/api'
-import { BullAdapter } from '@bull-board/api/bullAdapter'
 import { KoaAdapter } from '@bull-board/koa'
 
 import { QUEUE_PORT } from 'config'
 
-const someQueue = new Queue('someQueue')
+import { userQueue } from 'helpers'
 
 const serverAdapter = new KoaAdapter()
 
 createBullBoard({
-  queues: [new BullAdapter(someQueue)],
-  serverAdapter: serverAdapter
+  queues: [userQueue.adapter],
+  serverAdapter
 })
 
 const app = new Koa()
