@@ -77,5 +77,5 @@ In order not to use before update hooks on our models, we decided to create a fu
 
 ## Steps to use Queue UI
 
-1. After adding a new queue, need to add in queue.js a new `BullAdapter`
+1. After adding a new queue, need to add in queue.js a new `adapter`
 2. Acess UI on http://localhost:3001/v1/queues/dashboards
