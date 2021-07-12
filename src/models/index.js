@@ -12,6 +12,10 @@ Model.knex(knex)
 
 export const modelUuid = guid()
 export class baseModel extends mixin(Model, [visibility, DBErrors]) {
+  static get modelPaths() {
+    return [__dirname]
+  }
+
   static query(...args) {
     return super.query(...args)
   }
