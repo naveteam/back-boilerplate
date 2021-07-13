@@ -176,4 +176,26 @@ describe('TEST USERS', () => {
       )
     })
   })
+
+  describe('POST /v1/users/queue', () => {
+    test('should create a new user', async () => {
+      const response = await request(global.server)
+        .post('/v1/users/queue')
+        .set('Authorization', global.user.token)
+        .send({
+          name: 'User Test',
+          email: 'userTest@teste.com',
+          password: 'test123',
+          role_id: 1,
+          birthdate: '1900-05-01'
+        })
+      expect(response.status).toEqual(200)
+      expect(response.type).toEqual('application/json')
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          message: 'Job is running'
+        })
+      )
+    })
+  })
 })

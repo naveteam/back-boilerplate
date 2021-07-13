@@ -17,3 +17,7 @@ export const BUCKET_TYPE = process.env.BUCKET_TYPE || 'firebase'
 export const URL_FRONT = process.env.URL_FRONT || 'localhost'
 export const EXPIRE_TIME = process.env.EXPIRE_TIME || 1200
 export const LOGGER_NAME = process.env.LOGGER_NAME || 'boilerplate'
+
+export const REDIS_HOST = process.env.REDIS_HOST || 'localhost'
+export const REDIS_PORT = process.env.REDIS_PORT || 6379
+export const QUEUE_PORT = process.env.QUEUE_PORT || 3001
