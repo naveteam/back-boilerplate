@@ -24,7 +24,14 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, ob
 4. Change DATABASE_URL to postgress://`user`:`password`@`localhost`/`database`
 5. Run migrations: `yarn db:migrate`
 6. Run seeds: `yarn db:seed`
-7. Run `yarn start` or `yarn dev` to start server
+
+7. Install [Docker](https://docs.docker.com/engine/install/)
+
+- Pull redis: `docker pull redis`
+- Create image: `docker run --name your-image-name -d redis`
+- Start redis: `docker start your-image-name`
+
+8. Run `yarn start` or `yarn dev` to start server
 
 ## Testing
 
