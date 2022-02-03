@@ -7,8 +7,6 @@ import * as winston from 'winston'
 
 import routes from 'routes'
 import { authMiddleware, errorHandlingMiddleware } from 'middlewares'
-import { createCloudwatchTransporter, createTransporterPostgres } from 'helpers'
-import { LOGGER_GROUP, LOGGER_STREAM_GENERAL } from './utils'
 
 const app = new Koa()
 
@@ -17,7 +15,6 @@ app.use(helmet())
 app.use(
   logger({
     transports: [
-      createTransporterPostgres(),
       new winston.transports.Console({
         format: winston.format.combine(
           winston.format.simple(),
