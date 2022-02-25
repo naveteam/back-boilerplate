@@ -3,6 +3,7 @@ import Knex from 'knex'
 import guid from 'objection-guid'
 import visibility from 'objection-visibility'
 import { DBErrors } from 'objection-db-errors'
+import RawQuery from './RawQuery'
 
 import knexConfig from 'database/knexfile'
 import { NODE_ENV } from 'config'
@@ -12,6 +13,9 @@ Model.knex(knex)
 
 export const modelUuid = guid()
 export class baseModel extends mixin(Model, [visibility, DBErrors]) {
+  static get QueryBuilder() {
+    return RawQuery
+  }
   static get modelPaths() {
     return [__dirname]
   }
