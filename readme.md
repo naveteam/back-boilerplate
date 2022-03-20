@@ -55,7 +55,7 @@ A boilerplate for building RESTful APIs using Node.js, PostgreSQL, koa, knex, ob
 
 ## Postman
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/aba33a508a2c4dff0754)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/d40fb1d355b62a4639d3)
 
 ## Styleguide
 
