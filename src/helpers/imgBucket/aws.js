@@ -1,3 +1,5 @@
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import aws from 'aws-sdk'
 import fs from 'fs'
 import fileType from 'file-type'
@@ -18,32 +20,32 @@ export const initBucket = () =>
     secretAccessKey: AWS_SECRET_ACCESS_KEY
   })
 
-export const uploadImage = async (filename, file) =>
-  new Promise(async (resolve, reject) => {
-    const s3 = initBucket()
+const s3 = initBucket()
+
+export const uploadImage = async (filename, file) => {
+  try {
+    const ext = getExtFromFileName(file.name)
     const blob = await fileToBlob(file)
-    const localType = await fileType.fromBuffer(blob)
-    const ext = localType && localType.ext
-    const mime = localType && localType.mime
 
     const s3Params = {
       Bucket: S3_BUCKET,
       Key: `${filename}.${ext}`,
       Body: blob,
-      ContentType: mime || ''
+      ContentType: file.type,
+      ACL: 'public-read',
     }
+    const command = new PutObjectCommand(s3Params)
+    return signedUrl = await getSignedUrl(s3, command, {expiresIn: 120})
 
-    s3.upload(s3Params, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
-      return resolve(data)
-    })
-  })
+export const getExtFromFileName = filename => filename.split('.').pop() || ''
 
 export const getImage = async filename => {
-  const s3 = initBucket()
+
   const s3Params = {
     Bucket: S3_BUCKET,
     Key: filename
@@ -51,7 +53,10 @@ export const getImage = async filename => {
 
   const file = fs.createWriteStream(filename)
 
-  await s3.getObject(s3Params).createReadStream().pipe(file)
+  const command = new GetObjectCommand(s3Params)
+
+  await getSignedUrl(s3, command, {expiresIn: 3600})
+
 
   return writeFile(file)
 }
