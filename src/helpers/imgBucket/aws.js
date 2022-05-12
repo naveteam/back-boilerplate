@@ -35,7 +35,7 @@ export const uploadImage = async (filename, file) => {
       ACL: 'public-read',
     }
     const command = new PutObjectCommand(s3Params)
-    return signedUrl = await getSignedUrl(s3, command, {expiresIn: 120})
+    return getSignedUrl(s3, command, {expiresIn: 120})
 
   } catch (error) {
     throw new Error(error)
